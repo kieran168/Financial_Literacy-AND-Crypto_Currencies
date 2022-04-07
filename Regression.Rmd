@@ -102,7 +102,7 @@ summary(Demo_Crypto_Model)
 
 ## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
 ```{r Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Demo_Crypto_Interaction_Model <- lm(Score ~ Age 
+Demo_Crypto_Interaction_Model <- lm(Score ~ Age
                                     + Level_of_Income 
                                     + Level_of_Education 
                                     + Marital_Status 

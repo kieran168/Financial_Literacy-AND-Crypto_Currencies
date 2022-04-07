@@ -7,7 +7,12 @@ Kieran Yuen
 ## Model with Demographic information only
 
 ``` r
-Demographic_Model <- lm(Score ~ Age + Level_of_Income + Level_of_Education + Marital_Status + Number_of_Children, data = NFCS_data)
+Demographic_Model <- lm(Score ~ Age 
+                        + Level_of_Income 
+                        + Level_of_Education 
+                        + Marital_Status 
+                        + Number_of_Children
+                        , data = NFCS_data)
 summary(Demographic_Model)
 ```
 
@@ -60,15 +65,20 @@ summary(Demographic_Model)
 ## Model with Demographic information & Crypto State-Year Variable
 
 ``` r
-Demo_Crypto_Model <- lm(Score ~ Age + Level_of_Income + Level_of_Education + Marital_Status + Number_of_Children + State_Crypto_Year_Dummy_Variable, data = NFCS_data)
+Demo_Crypto_Model <- lm(Score ~ Age 
+                        + Level_of_Income 
+                        + Level_of_Education 
+                        + Marital_Status 
+                        + Number_of_Children 
+                        + Crypto_Year
+                        , data = NFCS_data)
 summary(Demo_Crypto_Model)
 ```
 
     ## 
     ## Call:
     ## lm(formula = Score ~ Age + Level_of_Income + Level_of_Education + 
-    ##     Marital_Status + Number_of_Children + State_Crypto_Year_Dummy_Variable, 
-    ##     data = NFCS_data)
+    ##     Marital_Status + Number_of_Children + Crypto_Year, data = NFCS_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
@@ -100,7 +110,7 @@ summary(Demo_Crypto_Model)
     ## Marital_StatusSeparated               -0.062840   0.021568  -2.914  0.00357 ** 
     ## Marital_StatusWidowed/widower         -0.211722   0.032054  -6.605 4.01e-11 ***
     ## Number_of_Children                    -0.062357   0.006112 -10.202  < 2e-16 ***
-    ## State_Crypto_Year_Dummy_Variable1     -0.043047   0.015451  -2.786  0.00534 ** 
+    ## Crypto_Year1                          -0.043047   0.015451  -2.786  0.00534 ** 
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
@@ -115,83 +125,59 @@ summary(Demo_Crypto_Model)
 ## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
 
 ``` r
-Demo_Crypto_Interaction_Model <- lm(Score ~ Age + Level_of_Income + Level_of_Education + Marital_Status + Number_of_Children + State_Crypto_Year_Dummy_Variable + Age*State_Crypto_Year_Dummy_Variable, data = NFCS_data)
+Demo_Crypto_Interaction_Model <- lm(Score ~ Age 
+                                    + Level_of_Income 
+                                    + Level_of_Education 
+                                    + Marital_Status 
+                                    + Number_of_Children 
+                                    + Crypto_Year 
+                                    + Age*Crypto_Year
+                                    , data = NFCS_data)
 summary(Demo_Crypto_Interaction_Model)
 ```
 
     ## 
     ## Call:
     ## lm(formula = Score ~ Age + Level_of_Income + Level_of_Education + 
-    ##     Marital_Status + Number_of_Children + State_Crypto_Year_Dummy_Variable + 
-    ##     Age * State_Crypto_Year_Dummy_Variable, data = NFCS_data)
+    ##     Marital_Status + Number_of_Children + Crypto_Year + Age * 
+    ##     Crypto_Year, data = NFCS_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
     ## -4.4302 -0.8782  0.1064  0.9656  3.9316 
     ## 
     ## Coefficients:
-    ##                                             Estimate Std. Error t value
-    ## (Intercept)                                 1.978832   0.034748  56.948
-    ## Age25-34                                   -0.092903   0.024239  -3.833
-    ## Age35-44                                    0.205481   0.025281   8.128
-    ## Age45-54                                    0.520143   0.025080  20.739
-    ## Age55-64                                    0.720117   0.025555  28.179
-    ## Age65+                                      0.919592   0.026156  35.158
-    ## Level_of_Income$15,000-$24,999              1.027024   0.030620  33.541
-    ## Level_of_Income$25,000-$34,999              0.956213   0.025601  37.350
-    ## Level_of_Income$35,000-$49,999              0.189250   0.023908   7.916
-    ## Level_of_Income$50,000-$74,999              0.284890   0.024008  11.866
-    ## Level_of_Income$75,000-$99,999              0.490017   0.022872  21.425
-    ## Level_of_Income$100,000-$149,999            0.634852   0.022262  28.517
-    ## Level_of_Income>$150,000                    0.706928   0.024435  28.931
-    ## Level_of_EducationGED                       0.386410   0.020747  18.625
-    ## Level_of_EducationHigh school diploma      -0.847861   0.040397 -20.988
-    ## Level_of_EducationSome college             -0.516694   0.027528 -18.770
-    ## Level_of_EducationAssociate's              -0.426630   0.021698 -19.662
-    ## Level_of_EducationBachelor's                0.484807   0.023461  20.664
-    ## Level_of_EducationPost graduate            -0.020205   0.019968  -1.012
-    ## Marital_StatusMarried                       0.019977   0.019555   1.022
-    ## Marital_StatusDivorced                     -0.091519   0.050157  -1.825
-    ## Marital_StatusSeparated                    -0.062551   0.021568  -2.900
-    ## Marital_StatusWidowed/widower              -0.210883   0.032056  -6.579
-    ## Number_of_Children                         -0.062377   0.006113 -10.204
-    ## State_Crypto_Year_Dummy_Variable1          -0.044702   0.047794  -0.935
-    ## Age25-34:State_Crypto_Year_Dummy_Variable1 -0.052638   0.060808  -0.866
-    ## Age35-44:State_Crypto_Year_Dummy_Variable1 -0.001685   0.060942  -0.028
-    ## Age45-54:State_Crypto_Year_Dummy_Variable1 -0.024978   0.060115  -0.416
-    ## Age55-64:State_Crypto_Year_Dummy_Variable1  0.079385   0.060022   1.323
-    ## Age65+:State_Crypto_Year_Dummy_Variable1    0.004766   0.059023   0.081
-    ##                                            Pr(>|t|)    
-    ## (Intercept)                                 < 2e-16 ***
-    ## Age25-34                                   0.000127 ***
-    ## Age35-44                                   4.46e-16 ***
-    ## Age45-54                                    < 2e-16 ***
-    ## Age55-64                                    < 2e-16 ***
-    ## Age65+                                      < 2e-16 ***
-    ## Level_of_Income$15,000-$24,999              < 2e-16 ***
-    ## Level_of_Income$25,000-$34,999              < 2e-16 ***
-    ## Level_of_Income$35,000-$49,999             2.50e-15 ***
-    ## Level_of_Income$50,000-$74,999              < 2e-16 ***
-    ## Level_of_Income$75,000-$99,999              < 2e-16 ***
-    ## Level_of_Income$100,000-$149,999            < 2e-16 ***
-    ## Level_of_Income>$150,000                    < 2e-16 ***
-    ## Level_of_EducationGED                       < 2e-16 ***
-    ## Level_of_EducationHigh school diploma       < 2e-16 ***
-    ## Level_of_EducationSome college              < 2e-16 ***
-    ## Level_of_EducationAssociate's               < 2e-16 ***
-    ## Level_of_EducationBachelor's                < 2e-16 ***
-    ## Level_of_EducationPost graduate            0.311602    
-    ## Marital_StatusMarried                      0.306991    
-    ## Marital_StatusDivorced                     0.068062 .  
-    ## Marital_StatusSeparated                    0.003730 ** 
-    ## Marital_StatusWidowed/widower              4.79e-11 ***
-    ## Number_of_Children                          < 2e-16 ***
-    ## State_Crypto_Year_Dummy_Variable1          0.349636    
-    ## Age25-34:State_Crypto_Year_Dummy_Variable1 0.386685    
-    ## Age35-44:State_Crypto_Year_Dummy_Variable1 0.977948    
-    ## Age45-54:State_Crypto_Year_Dummy_Variable1 0.677771    
-    ## Age55-64:State_Crypto_Year_Dummy_Variable1 0.185973    
-    ## Age65+:State_Crypto_Year_Dummy_Variable1   0.935646    
+    ##                                        Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                            1.978832   0.034748  56.948  < 2e-16 ***
+    ## Age25-34                              -0.092903   0.024239  -3.833 0.000127 ***
+    ## Age35-44                               0.205481   0.025281   8.128 4.46e-16 ***
+    ## Age45-54                               0.520143   0.025080  20.739  < 2e-16 ***
+    ## Age55-64                               0.720117   0.025555  28.179  < 2e-16 ***
+    ## Age65+                                 0.919592   0.026156  35.158  < 2e-16 ***
+    ## Level_of_Income$15,000-$24,999         1.027024   0.030620  33.541  < 2e-16 ***
+    ## Level_of_Income$25,000-$34,999         0.956213   0.025601  37.350  < 2e-16 ***
+    ## Level_of_Income$35,000-$49,999         0.189250   0.023908   7.916 2.50e-15 ***
+    ## Level_of_Income$50,000-$74,999         0.284890   0.024008  11.866  < 2e-16 ***
+    ## Level_of_Income$75,000-$99,999         0.490017   0.022872  21.425  < 2e-16 ***
+    ## Level_of_Income$100,000-$149,999       0.634852   0.022262  28.517  < 2e-16 ***
+    ## Level_of_Income>$150,000               0.706928   0.024435  28.931  < 2e-16 ***
+    ## Level_of_EducationGED                  0.386410   0.020747  18.625  < 2e-16 ***
+    ## Level_of_EducationHigh school diploma -0.847861   0.040397 -20.988  < 2e-16 ***
+    ## Level_of_EducationSome college        -0.516694   0.027528 -18.770  < 2e-16 ***
+    ## Level_of_EducationAssociate's         -0.426630   0.021698 -19.662  < 2e-16 ***
+    ## Level_of_EducationBachelor's           0.484807   0.023461  20.664  < 2e-16 ***
+    ## Level_of_EducationPost graduate       -0.020205   0.019968  -1.012 0.311602    
+    ## Marital_StatusMarried                  0.019977   0.019555   1.022 0.306991    
+    ## Marital_StatusDivorced                -0.091519   0.050157  -1.825 0.068062 .  
+    ## Marital_StatusSeparated               -0.062551   0.021568  -2.900 0.003730 ** 
+    ## Marital_StatusWidowed/widower         -0.210883   0.032056  -6.579 4.79e-11 ***
+    ## Number_of_Children                    -0.062377   0.006113 -10.204  < 2e-16 ***
+    ## Crypto_Year1                          -0.044702   0.047794  -0.935 0.349636    
+    ## Age25-34:Crypto_Year1                 -0.052638   0.060808  -0.866 0.386685    
+    ## Age35-44:Crypto_Year1                 -0.001685   0.060942  -0.028 0.977948    
+    ## Age45-54:Crypto_Year1                 -0.024978   0.060115  -0.416 0.677771    
+    ## Age55-64:Crypto_Year1                  0.079385   0.060022   1.323 0.185973    
+    ## Age65+:Crypto_Year1                    0.004766   0.059023   0.081 0.935646    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 

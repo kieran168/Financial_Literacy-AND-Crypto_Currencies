@@ -2,7 +2,7 @@
 title: "Financial Literacy and Cryptocurrency"
 font-family: 'Corbel'
 author: Kieran Yuen
-output: github_document
+output: rmarkdown::github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -17,11 +17,6 @@ View(NFCS_data)
 ```
 
 ```{r Changing Data Types for variables, include=FALSE}
-NFCS_data$Year <- as.factor(NFCS_data$Year)
-levels(NFCS_data$Year)
-
-NFCS_data$NFCS_ID <- as.character(NFCS_data$NFCS_ID)
-
 NFCS_data$Score <- as.numeric(NFCS_data$Score)
 
 NFCS_data$Age <- as.factor(NFCS_data$Age)
@@ -72,17 +67,19 @@ levels(NFCS_data$Financial_education) <-
     "Very High")
 levels(NFCS_data$Financial_education)
 
-
-NFCS_data$State <- as.character(NFCS_data$State)
-
-NFCS_data$State_Crypto_Year_Dummy_Variable <- as.factor(NFCS_data$State_Crypto_Year_Dummy_Variable)
-levels(NFCS_data$State_Crypto_Year_Dummy_Variable)
+NFCS_data$Crypto_Year <- as.factor(NFCS_data$Crypto_Year)
+levels(NFCS_data$Crypto_Year)
 ```
 
 # Regression Models
 ## Model with Demographic information only
 ```{r Model with Demographic information only}
-Demographic_Model <- lm(Score ~ Age + Level_of_Income + Level_of_Education + Marital_Status + Number_of_Children, data = NFCS_data)
+Demographic_Model <- lm(Score ~ Age 
+                        + Level_of_Income 
+                        + Level_of_Education 
+                        + Marital_Status 
+                        + Number_of_Children
+                        , data = NFCS_data)
 summary(Demographic_Model)
 
 #plot(Demographic_Model)
@@ -90,7 +87,13 @@ summary(Demographic_Model)
 
 ## Model with Demographic information & Crypto State-Year Variable
 ```{r Model with Demographic information & Crypto State-Year Variable}
-Demo_Crypto_Model <- lm(Score ~ Age + Level_of_Income + Level_of_Education + Marital_Status + Number_of_Children + State_Crypto_Year_Dummy_Variable, data = NFCS_data)
+Demo_Crypto_Model <- lm(Score ~ Age 
+                        + Level_of_Income 
+                        + Level_of_Education 
+                        + Marital_Status 
+                        + Number_of_Children 
+                        + Crypto_Year
+                        , data = NFCS_data)
 summary(Demo_Crypto_Model)
 
 #plot(Demo_Crypto_Model)
@@ -99,7 +102,14 @@ summary(Demo_Crypto_Model)
 
 ## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
 ```{r Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Demo_Crypto_Interaction_Model <- lm(Score ~ Age + Level_of_Income + Level_of_Education + Marital_Status + Number_of_Children + State_Crypto_Year_Dummy_Variable + Age*State_Crypto_Year_Dummy_Variable, data = NFCS_data)
+Demo_Crypto_Interaction_Model <- lm(Score ~ Age 
+                                    + Level_of_Income 
+                                    + Level_of_Education 
+                                    + Marital_Status 
+                                    + Number_of_Children 
+                                    + Crypto_Year 
+                                    + Age*Crypto_Year
+                                    , data = NFCS_data)
 summary(Demo_Crypto_Interaction_Model)
 
 #plot(Demo_Crypto_Interaction_Model)

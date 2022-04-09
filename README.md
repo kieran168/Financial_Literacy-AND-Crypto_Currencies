@@ -59,8 +59,10 @@ summary(Demographic_Model)
     ## F-statistic: 773.7 on 22 and 54632 DF,  p-value: < 2.2e-16
 
 ``` r
-#plot(Demographic_Model)
+plot(Demographic_Model)
 ```
+
+![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-4.png)<!-- -->
 
 ## Model with Demographic information & Crypto State-Year Variable
 
@@ -118,8 +120,10 @@ summary(Demo_Crypto_Model)
     ## F-statistic: 740.8 on 23 and 54631 DF,  p-value: < 2.2e-16
 
 ``` r
-#plot(Demo_Crypto_Model)
+plot(Demo_Crypto_Model)
 ```
+
+![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-4.png)<!-- -->
 
 ## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
 
@@ -183,5 +187,7 @@ summary(Demo_Crypto_Interaction_Model)
     ## F-statistic: 608.8 on 28 and 54626 DF,  p-value: < 2.2e-16
 
 ``` r
-#plot(Demo_Crypto_Interaction_Model)
+plot(Demo_Crypto_Interaction_Model)
 ```
+
+![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-4.png)<!-- -->

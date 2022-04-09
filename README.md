@@ -8,55 +8,55 @@ Kieran Yuen
 
 ``` r
 Demographic_Model <- lm(Score ~ Age 
-                        + Level_of_Income 
-                        + Level_of_Education 
+                        + Income 
+                        + Education 
                         + Marital_Status 
-                        + Number_of_Children
+                        + Children
                         , data = NFCS_data)
+
 summary(Demographic_Model)
 ```
 
     ## 
     ## Call:
-    ## lm(formula = Score ~ Age + Level_of_Income + Level_of_Education + 
-    ##     Marital_Status + Number_of_Children, data = NFCS_data)
+    ## lm(formula = Score ~ Age + Income + Education + Marital_Status + 
+    ##     Children, data = NFCS_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -4.4246 -0.8788  0.1102  0.9676  3.9389 
+    ## -4.4257 -0.8864  0.1101  0.9671  3.9380 
     ## 
     ## Coefficients:
-    ##                                        Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)                            1.972426   0.034071  57.892  < 2e-16 ***
-    ## Age25-34                              -0.100433   0.022551  -4.454 8.46e-06 ***
-    ## Age35-44                               0.204744   0.023570   8.687  < 2e-16 ***
-    ## Age45-54                               0.515837   0.023404  22.040  < 2e-16 ***
-    ## Age55-64                               0.731979   0.023927  30.592  < 2e-16 ***
-    ## Age65+                                 0.919870   0.024652  37.314  < 2e-16 ***
-    ## Level_of_Income$15,000-$24,999         1.026852   0.030620  33.535  < 2e-16 ***
-    ## Level_of_Income$25,000-$34,999         0.955790   0.025599  37.337  < 2e-16 ***
-    ## Level_of_Income$35,000-$49,999         0.189432   0.023909   7.923 2.36e-15 ***
-    ## Level_of_Income$50,000-$74,999         0.284681   0.024010  11.857  < 2e-16 ***
-    ## Level_of_Income$75,000-$99,999         0.489811   0.022873  21.414  < 2e-16 ***
-    ## Level_of_Income$100,000-$149,999       0.634678   0.022263  28.508  < 2e-16 ***
-    ## Level_of_Income>$150,000               0.706514   0.024436  28.913  < 2e-16 ***
-    ## Level_of_EducationGED                  0.386794   0.020747  18.643  < 2e-16 ***
-    ## Level_of_EducationHigh school diploma -0.848433   0.040392 -21.005  < 2e-16 ***
-    ## Level_of_EducationSome college        -0.516812   0.027526 -18.775  < 2e-16 ***
-    ## Level_of_EducationAssociate's         -0.426867   0.021698 -19.673  < 2e-16 ***
-    ## Level_of_EducationBachelor's           0.485579   0.023461  20.697  < 2e-16 ***
-    ## Level_of_EducationPost graduate       -0.019741   0.019969  -0.989  0.32286    
-    ## Marital_StatusMarried                  0.019881   0.019555   1.017  0.30930    
-    ## Marital_StatusDivorced                -0.092322   0.050159  -1.841  0.06569 .  
-    ## Marital_StatusSeparated               -0.062875   0.021569  -2.915  0.00356 ** 
-    ## Marital_StatusWidowed/widower         -0.211862   0.032056  -6.609 3.90e-11 ***
-    ## Number_of_Children                    -0.062225   0.006113 -10.180  < 2e-16 ***
+    ##                                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                    1.972487   0.034074  57.888  < 2e-16 ***
+    ## Age25-34                      -0.102784   0.022544  -4.559 5.14e-06 ***
+    ## Age35-44                       0.202439   0.023563   8.591  < 2e-16 ***
+    ## Age45-54                       0.513726   0.023399  21.955  < 2e-16 ***
+    ## Age55-64                       0.730388   0.023925  30.528  < 2e-16 ***
+    ## Age65+                         0.918158   0.024650  37.248  < 2e-16 ***
+    ## Income$15,000-$24,999          1.029874   0.030611  33.644  < 2e-16 ***
+    ## Income$25,000-$34,999          0.958711   0.025589  37.466  < 2e-16 ***
+    ## Income$35,000-$49,999          0.190377   0.023910   7.962 1.72e-15 ***
+    ## Income$50,000-$74,999          0.286714   0.024005  11.944  < 2e-16 ***
+    ## Income$75,000-$99,999          0.491674   0.022869  21.499  < 2e-16 ***
+    ## Income$100,000-$149,999        0.637115   0.022255  28.628  < 2e-16 ***
+    ## Income>$150,000                0.709090   0.024428  29.028  < 2e-16 ***
+    ## EducationHigh School           0.386476   0.020749  18.626  < 2e-16 ***
+    ## EducationSome College         -0.451841   0.020522 -22.018  < 2e-16 ***
+    ## EducationAssociate's          -0.847691   0.040396 -20.984  < 2e-16 ***
+    ## EducationBachelor's            0.485063   0.023463  20.673  < 2e-16 ***
+    ## EducationPost Graduate        -0.019775   0.019971  -0.990  0.32209    
+    ## Marital_StatusMarried          0.020123   0.019557   1.029  0.30349    
+    ## Marital_StatusDivorced        -0.094084   0.050162  -1.876  0.06071 .  
+    ## Marital_StatusSeparated       -0.062776   0.021571  -2.910  0.00361 ** 
+    ## Marital_StatusWidowed/widower -0.211858   0.032059  -6.608 3.92e-11 ***
+    ## Children                      -0.062664   0.006112 -10.253  < 2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.295 on 54631 degrees of freedom
-    ## Multiple R-squared:  0.2377, Adjusted R-squared:  0.2374 
-    ## F-statistic: 740.8 on 23 and 54631 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 1.295 on 54632 degrees of freedom
+    ## Multiple R-squared:  0.2376, Adjusted R-squared:  0.2372 
+    ## F-statistic: 773.7 on 22 and 54632 DF,  p-value: < 2.2e-16
 
 ``` r
 #plot(Demographic_Model)
@@ -66,57 +66,56 @@ summary(Demographic_Model)
 
 ``` r
 Demo_Crypto_Model <- lm(Score ~ Age 
-                        + Level_of_Income 
-                        + Level_of_Education 
+                        + Income 
+                        + Education 
                         + Marital_Status 
-                        + Number_of_Children 
-                        + Crypto_Year
+                        + Children 
+                        + Crypto_State_Year
                         , data = NFCS_data)
 summary(Demo_Crypto_Model)
 ```
 
     ## 
     ## Call:
-    ## lm(formula = Score ~ Age + Level_of_Income + Level_of_Education + 
-    ##     Marital_Status + Number_of_Children + Crypto_Year, data = NFCS_data)
+    ## lm(formula = Score ~ Age + Income + Education + Marital_Status + 
+    ##     Children + Crypto_State_Year, data = NFCS_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -4.4311 -0.8788  0.1059  0.9664  3.9316 
+    ## -4.4346 -0.8794  0.1037  0.9677  3.9271 
     ## 
     ## Coefficients:
-    ##                                        Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)                            1.978398   0.034136  57.956  < 2e-16 ***
-    ## Age25-34                              -0.100546   0.022550  -4.459 8.26e-06 ***
-    ## Age35-44                               0.205013   0.023568   8.699  < 2e-16 ***
-    ## Age45-54                               0.516097   0.023403  22.052  < 2e-16 ***
-    ## Age55-64                               0.732256   0.023925  30.606  < 2e-16 ***
-    ## Age65+                                 0.920203   0.024651  37.330  < 2e-16 ***
-    ## Level_of_Income$15,000-$24,999         1.027258   0.030618  33.550  < 2e-16 ***
-    ## Level_of_Income$25,000-$34,999         0.956721   0.025600  37.372  < 2e-16 ***
-    ## Level_of_Income$35,000-$49,999         0.189367   0.023907   7.921 2.40e-15 ***
-    ## Level_of_Income$50,000-$74,999         0.284844   0.024008  11.865  < 2e-16 ***
-    ## Level_of_Income$75,000-$99,999         0.490056   0.022872  21.426  < 2e-16 ***
-    ## Level_of_Income$100,000-$149,999       0.635004   0.022262  28.524  < 2e-16 ***
-    ## Level_of_Income>$150,000               0.707013   0.024435  28.934  < 2e-16 ***
-    ## Level_of_EducationGED                  0.386899   0.020746  18.650  < 2e-16 ***
-    ## Level_of_EducationHigh school diploma -0.847114   0.040393 -20.972  < 2e-16 ***
-    ## Level_of_EducationSome college        -0.516035   0.027526 -18.747  < 2e-16 ***
-    ## Level_of_EducationAssociate's         -0.426343   0.021697 -19.650  < 2e-16 ***
-    ## Level_of_EducationBachelor's           0.485488   0.023460  20.694  < 2e-16 ***
-    ## Level_of_EducationPost graduate       -0.019846   0.019968  -0.994  0.32026    
-    ## Marital_StatusMarried                  0.019793   0.019554   1.012  0.31142    
-    ## Marital_StatusDivorced                -0.091601   0.050156  -1.826  0.06781 .  
-    ## Marital_StatusSeparated               -0.062840   0.021568  -2.914  0.00357 ** 
-    ## Marital_StatusWidowed/widower         -0.211722   0.032054  -6.605 4.01e-11 ***
-    ## Number_of_Children                    -0.062357   0.006112 -10.202  < 2e-16 ***
-    ## Crypto_Year1                          -0.043047   0.015451  -2.786  0.00534 ** 
+    ##                                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                    1.980730   0.034142  58.014  < 2e-16 ***
+    ## Age25-34                      -0.102974   0.022541  -4.568 4.93e-06 ***
+    ## Age35-44                       0.202782   0.023561   8.607  < 2e-16 ***
+    ## Age45-54                       0.514036   0.023397  21.970  < 2e-16 ***
+    ## Age55-64                       0.730640   0.023922  30.542  < 2e-16 ***
+    ## Age65+                         0.918472   0.024647  37.265  < 2e-16 ***
+    ## Income$15,000-$24,999          1.030189   0.030608  33.658  < 2e-16 ***
+    ## Income$25,000-$34,999          0.959725   0.025587  37.508  < 2e-16 ***
+    ## Income$35,000-$49,999          0.190234   0.023907   7.957 1.79e-15 ***
+    ## Income$50,000-$74,999          0.286828   0.024002  11.950  < 2e-16 ***
+    ## Income$75,000-$99,999          0.491886   0.022867  21.511  < 2e-16 ***
+    ## Income$100,000-$149,999        0.637370   0.022253  28.643  < 2e-16 ***
+    ## Income>$150,000                0.709565   0.024425  29.051  < 2e-16 ***
+    ## EducationHigh School           0.386726   0.020747  18.640  < 2e-16 ***
+    ## EducationSome College         -0.450800   0.020521 -21.967  < 2e-16 ***
+    ## EducationAssociate's          -0.845177   0.040397 -20.922  < 2e-16 ***
+    ## EducationBachelor's            0.485103   0.023461  20.677  < 2e-16 ***
+    ## EducationPost Graduate        -0.019820   0.019968  -0.993 0.320937    
+    ## Marital_StatusMarried          0.020126   0.019554   1.029 0.303374    
+    ## Marital_StatusDivorced        -0.093344   0.050156  -1.861 0.062740 .  
+    ## Marital_StatusSeparated       -0.062690   0.021569  -2.907 0.003656 ** 
+    ## Marital_StatusWidowed/widower -0.211605   0.032055  -6.601 4.11e-11 ***
+    ## Children                      -0.062825   0.006111 -10.280  < 2e-16 ***
+    ## Crypto_State_Year1            -0.056081   0.015087  -3.717 0.000202 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.295 on 54630 degrees of freedom
-    ## Multiple R-squared:  0.2378, Adjusted R-squared:  0.2375 
-    ## F-statistic: 710.3 on 24 and 54630 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 1.295 on 54631 degrees of freedom
+    ## Multiple R-squared:  0.2377, Adjusted R-squared:  0.2374 
+    ## F-statistic: 740.8 on 23 and 54631 DF,  p-value: < 2.2e-16
 
 ``` r
 #plot(Demo_Crypto_Model)
@@ -125,65 +124,63 @@ summary(Demo_Crypto_Model)
 ## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
 
 ``` r
-Demo_Crypto_Interaction_Model <- lm(Score ~ Age 
-                                    + Level_of_Income 
-                                    + Level_of_Education 
+Demo_Crypto_Interaction_Model <- lm(Score ~ Age
+                                    + Income 
+                                    + Education 
                                     + Marital_Status 
-                                    + Number_of_Children 
-                                    + Crypto_Year 
-                                    + Age*Crypto_Year
+                                    + Children 
+                                    + Crypto_State_Year 
+                                    + Age*Crypto_State_Year
                                     , data = NFCS_data)
 summary(Demo_Crypto_Interaction_Model)
 ```
 
     ## 
     ## Call:
-    ## lm(formula = Score ~ Age + Level_of_Income + Level_of_Education + 
-    ##     Marital_Status + Number_of_Children + Crypto_Year + Age * 
-    ##     Crypto_Year, data = NFCS_data)
+    ## lm(formula = Score ~ Age + Income + Education + Marital_Status + 
+    ##     Children + Crypto_State_Year + Age * Crypto_State_Year, data = NFCS_data)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -4.4302 -0.8782  0.1064  0.9656  3.9316 
+    ## -4.4316 -0.8791  0.1038  0.9624  3.9284 
     ## 
     ## Coefficients:
-    ##                                        Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)                            1.978832   0.034748  56.948  < 2e-16 ***
-    ## Age25-34                              -0.092903   0.024239  -3.833 0.000127 ***
-    ## Age35-44                               0.205481   0.025281   8.128 4.46e-16 ***
-    ## Age45-54                               0.520143   0.025080  20.739  < 2e-16 ***
-    ## Age55-64                               0.720117   0.025555  28.179  < 2e-16 ***
-    ## Age65+                                 0.919592   0.026156  35.158  < 2e-16 ***
-    ## Level_of_Income$15,000-$24,999         1.027024   0.030620  33.541  < 2e-16 ***
-    ## Level_of_Income$25,000-$34,999         0.956213   0.025601  37.350  < 2e-16 ***
-    ## Level_of_Income$35,000-$49,999         0.189250   0.023908   7.916 2.50e-15 ***
-    ## Level_of_Income$50,000-$74,999         0.284890   0.024008  11.866  < 2e-16 ***
-    ## Level_of_Income$75,000-$99,999         0.490017   0.022872  21.425  < 2e-16 ***
-    ## Level_of_Income$100,000-$149,999       0.634852   0.022262  28.517  < 2e-16 ***
-    ## Level_of_Income>$150,000               0.706928   0.024435  28.931  < 2e-16 ***
-    ## Level_of_EducationGED                  0.386410   0.020747  18.625  < 2e-16 ***
-    ## Level_of_EducationHigh school diploma -0.847861   0.040397 -20.988  < 2e-16 ***
-    ## Level_of_EducationSome college        -0.516694   0.027528 -18.770  < 2e-16 ***
-    ## Level_of_EducationAssociate's         -0.426630   0.021698 -19.662  < 2e-16 ***
-    ## Level_of_EducationBachelor's           0.484807   0.023461  20.664  < 2e-16 ***
-    ## Level_of_EducationPost graduate       -0.020205   0.019968  -1.012 0.311602    
-    ## Marital_StatusMarried                  0.019977   0.019555   1.022 0.306991    
-    ## Marital_StatusDivorced                -0.091519   0.050157  -1.825 0.068062 .  
-    ## Marital_StatusSeparated               -0.062551   0.021568  -2.900 0.003730 ** 
-    ## Marital_StatusWidowed/widower         -0.210883   0.032056  -6.579 4.79e-11 ***
-    ## Number_of_Children                    -0.062377   0.006113 -10.204  < 2e-16 ***
-    ## Crypto_Year1                          -0.044702   0.047794  -0.935 0.349636    
-    ## Age25-34:Crypto_Year1                 -0.052638   0.060808  -0.866 0.386685    
-    ## Age35-44:Crypto_Year1                 -0.001685   0.060942  -0.028 0.977948    
-    ## Age45-54:Crypto_Year1                 -0.024978   0.060115  -0.416 0.677771    
-    ## Age55-64:Crypto_Year1                  0.079385   0.060022   1.323 0.185973    
-    ## Age65+:Crypto_Year1                    0.004766   0.059023   0.081 0.935646    
+    ##                                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                    1.979896   0.034813  56.872  < 2e-16 ***
+    ## Age25-34                      -0.093081   0.024373  -3.819 0.000134 ***
+    ## Age35-44                       0.204490   0.025420   8.044 8.84e-16 ***
+    ## Age45-54                       0.520949   0.025212  20.663  < 2e-16 ***
+    ## Age55-64                       0.720882   0.025682  28.069  < 2e-16 ***
+    ## Age65+                         0.917424   0.026271  34.921  < 2e-16 ***
+    ## Income$15,000-$24,999          1.029814   0.030609  33.644  < 2e-16 ***
+    ## Income$25,000-$34,999          0.959241   0.025588  37.487  < 2e-16 ***
+    ## Income$35,000-$49,999          0.190132   0.023907   7.953 1.86e-15 ***
+    ## Income$50,000-$74,999          0.286792   0.024003  11.948  < 2e-16 ***
+    ## Income$75,000-$99,999          0.491797   0.022867  21.507  < 2e-16 ***
+    ## Income$100,000-$149,999        0.637077   0.022253  28.629  < 2e-16 ***
+    ## Income>$150,000                0.709463   0.024426  29.046  < 2e-16 ***
+    ## EducationHigh School           0.386210   0.020748  18.614  < 2e-16 ***
+    ## EducationSome College         -0.451225   0.020522 -21.987  < 2e-16 ***
+    ## EducationAssociate's          -0.845711   0.040403 -20.932  < 2e-16 ***
+    ## EducationBachelor's            0.484332   0.023462  20.643  < 2e-16 ***
+    ## EducationPost Graduate        -0.020158   0.019969  -1.009 0.312761    
+    ## Marital_StatusMarried          0.020165   0.019557   1.031 0.302501    
+    ## Marital_StatusDivorced        -0.093619   0.050158  -1.866 0.061980 .  
+    ## Marital_StatusSeparated       -0.062538   0.021569  -2.899 0.003740 ** 
+    ## Marital_StatusWidowed/widower -0.210929   0.032059  -6.579 4.77e-11 ***
+    ## Children                      -0.062824   0.006112 -10.279  < 2e-16 ***
+    ## Crypto_State_Year1            -0.048533   0.046394  -1.046 0.295521    
+    ## Age25-34:Crypto_State_Year1   -0.063734   0.059102  -1.078 0.280872    
+    ## Age35-44:Crypto_State_Year1   -0.009448   0.059248  -0.159 0.873297    
+    ## Age45-54:Crypto_State_Year1   -0.041368   0.058474  -0.707 0.479283    
+    ## Age55-64:Crypto_State_Year1    0.060661   0.058463   1.038 0.299461    
+    ## Age65+:Crypto_State_Year1      0.007008   0.057490   0.122 0.902972    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.295 on 54625 degrees of freedom
-    ## Multiple R-squared:  0.2379, Adjusted R-squared:  0.2375 
-    ## F-statistic: 588.1 on 29 and 54625 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 1.295 on 54626 degrees of freedom
+    ## Multiple R-squared:  0.2378, Adjusted R-squared:  0.2375 
+    ## F-statistic: 608.8 on 28 and 54626 DF,  p-value: < 2.2e-16
 
 ``` r
 #plot(Demo_Crypto_Interaction_Model)

@@ -197,7 +197,7 @@ Demographic_Model <- lm(Score ~ Age
 
 summary(Demographic_Model)
 
-#plot(Demographic_Model)
+plot(Demographic_Model)
 ```
 
 ## Model with Demographic information & Crypto State-Year Variable
@@ -211,7 +211,7 @@ Demo_Crypto_Model <- lm(Score ~ Age
                         , data = NFCS_data)
 summary(Demo_Crypto_Model)
 
-#plot(Demo_Crypto_Model)
+plot(Demo_Crypto_Model)
 ```
 
 
@@ -227,7 +227,7 @@ Demo_Crypto_Interaction_Model <- lm(Score ~ Age
                                     , data = NFCS_data)
 summary(Demo_Crypto_Interaction_Model)
 
-#plot(Demo_Crypto_Interaction_Model)
+plot(Demo_Crypto_Interaction_Model)
 ```
 
 

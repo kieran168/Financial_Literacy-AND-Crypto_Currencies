@@ -1,201 +1,12 @@
----
-title: "Financial Literacy and Cryptocurrency"
-font-family: 'Corbel'
-author: Kieran Yuen
-output: rmarkdown::github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r Loading in NFCS data, include=FALSE}
-library(readxl)
-X04092022_NFCS_2018_State_Tracking_Data_190623 <- read_excel("04092022_NFCS 2018 State Tracking Data 190623.xlsx")
-View(X04092022_NFCS_2018_State_Tracking_Data_190623)
-```
-
-
-```{r Cleaning Data, include=FALSE}
-library(tidyverse)
-NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>% 
-  select(TRACK,NFCSID,STATEQ,A3Ar_w,A5_2015,A8,A6,A11,M4,M6,M7,M8,M9,M10) %>%
-  rename(Year = TRACK,
-         NFCS_ID = NFCSID,
-         State = STATEQ,
-         Age = A3Ar_w,
-         Education = A5_2015,
-         Income = A8,
-         Marital_Status = A6,
-         Children = A11,
-         Financial_Education = M4,
-         Question_1 = M6,
-         Question_2 = M7,
-         Question_3 = M8,
-         Question_4 = M9,
-         Question_5 = M10) %>%
-  na.omit() %>% 
-  filter(Year =="2018"|
-           Year == "2015") %>%
-  mutate(Age = recode(Age,
-                      '1' = "18-24",
-                      '2' = "25-34",
-                      '3' = "35-44",
-                      '4' = "45-54",
-                      '5' = "55-64",
-                      '6' = "65+")) %>%
-  mutate(Education = recode(Education,
-                      '1' = "No High School",
-                      '2' = "High School",
-                      '3' = "High School",
-                      '4' = "Some College",
-                      '5' = "Associate's",
-                      '6' = "Bachelor's",
-                      '7' = "Post Graduate",
-                      '99' = 'NA')) %>%
-  mutate(Income = recode(Income,
-                      '1' = "<$15,000",
-                      '2' = "$15,000-$24,999",
-                      '3' = "$25,000-$34,999",
-                      '4' = "$35,000-$49,999",
-                      '5' = "$50,000-$74,999",
-                      '6' = "$75,000-$99,999",
-                      '7' = "$100,000-$149,999",
-                      '8' = ">$150,000",
-                      '98' = 'NA',
-                      '99' = 'NA')) %>%
-  mutate(Marital_Status = recode(Marital_Status,
-                      '1' = "Married",
-                      '2' = "Single",
-                      '3' = "Separated",
-                      '4' = "Divorced",
-                      '5' = "Widowed/widower",
-                      '99' = 'NA')) %>%
-  mutate(Children = recode(Children,
-                      '1' = 1,
-                      '2' = 2,
-                      '3' = 3,
-                      '4' = 4,
-                      '5' = 0,
-                      '6' = 0,
-                      '99' = NA_real_)) %>%
-    mutate(Financial_Education = recode(Financial_Education,
-                      '1' = 1,
-                      '2' = 2,
-                      '3' = 3,
-                      '4' = 4,
-                      '5' = 5,
-                      '6' = 6,
-                      '7' = 7,
-                      '98' = NA_real_,
-                      '99' = NA_real_)) %>%
-  mutate(Question_1 = recode(Question_1,
-                      '1' = 1,
-                      '2' = 0,
-                      '3' = 0,
-                      '98' = NA_real_,
-                      '99' = NA_real_)) %>%
-  mutate(Question_2 = recode(Question_2,
-                      '1' = 0,
-                      '2' = 0,
-                      '3' = 1,
-                      '98' = NA_real_,
-                      '99' = NA_real_)) %>%
-  mutate(Question_3 = recode(Question_3,
-                      '1' = 0,
-                      '2' = 1,
-                      '3' = 0,
-                      '4' = 0,
-                      '98' = NA_real_,
-                      '99' = NA_real_)) %>%
-  mutate(Question_4 = recode(Question_4,
-                      '1' = 1,
-                      '2' = 0,
-                      '98' = NA_real_,
-                      '99' = NA_real_)) %>%
-  mutate(Question_5 = recode(Question_5,
-                      '1' = 0,
-                      '2' = 1,
-                      '98' = NA_real_,
-                      '99' = NA_real_)) %>%
-  mutate(Score = select(., Question_1:Question_5) %>% 
-           rowSums(na.rm = TRUE)) %>% 
-  unite("State_Year", State, Year, remove = FALSE) %>% 
-  mutate(Crypto_State_Year = ifelse(State_Year == '1_2018'
-                                    |State_Year =='10_2018'
-                                    |State_Year =='11_2018'
-                                    |State_Year =='14_2018'
-                                    |State_Year =='30_2015'
-                                    |State_Year =='30_2018'
-                                    |State_Year =='34_2018'
-                                    |State_Year =='39_2018'
-                                    |State_Year =='43_2015'
-                                    |State_Year =='43_2018'
-                                    |State_Year =='45_2018'
-                                    |State_Year =='46_2015'
-                                    |State_Year =='46_2018'
-                                    |State_Year =='48_2018'
-                                    |State_Year =='7_2015'
-                                    |State_Year =='7_2018'
-                                    ,1,0))
-```
-
-```{r Changing Data Types for variables, include=FALSE}
-#Score
-NFCS_data$Score <- as.numeric(NFCS_data$Score)
-
-#Age
-NFCS_data$Age <- as.factor(NFCS_data$Age)
-levels(NFCS_data$Age)
-
-#Education
-NFCS_data$Education <- as.factor(NFCS_data$Education)
-NFCS_data$Education <- factor(NFCS_data$Education,
-                              levels = c("No High School",
-                                         "High School",
-                                         "Some College",
-                                         "Associate's",
-                                         "Bachelor's",
-                                         "Post Graduate"))
-levels(NFCS_data$Education)
-
-#Income
-NFCS_data$Income <- as.factor(NFCS_data$Income)
-NFCS_data$Income <- factor(NFCS_data$Income,
-                              levels = c("<$15,000",
-                                         "$15,000-$24,999",
-                                         "$25,000-$34,999",
-                                         "$35,000-$49,999",
-                                         "$50,000-$74,999",
-                                         "$75,000-$99,999",
-                                         "$100,000-$149,999",
-                                         ">$150,000"))
-levels(NFCS_data$Income)
-
-#Marital Status
-NFCS_data$Marital_Status <- as.factor(NFCS_data$Marital_Status)
-NFCS_data$Marital_Status <- factor(NFCS_data$Marital_Status,
-                              levels = c("Single",
-                                         "Married",
-                                         "Divorced",
-                                         "Separated",
-                                         "Widowed/widower"))
-levels(NFCS_data$Marital_Status)
-
-#Children
-NFCS_data$Children <- as.integer(NFCS_data$Children)
-
-#Financial Education
-NFCS_data$Financial_Education <- as.numeric(NFCS_data$Financial_Education)
-
-#Crypto_State_Year
-NFCS_data$Crypto_State_Year <- as.factor(NFCS_data$Crypto_State_Year)
-levels(NFCS_data$Crypto_State_Year)
-```
+Financial Literacy and Cryptocurrency
+================
+Kieran Yuen
 
 # Regression Models
+
 ## Model with Demographic information only
-```{r Model with Demographic information only}
+
+``` r
 Demographic_Model <- lm(Score ~ Age 
                         + Income 
                         + Education 
@@ -204,12 +15,58 @@ Demographic_Model <- lm(Score ~ Age
                         , data = NFCS_data)
 
 summary(Demographic_Model)
+```
 
+    ## 
+    ## Call:
+    ## lm(formula = Score ~ Age + Income + Education + Marital_Status + 
+    ##     Children, data = NFCS_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -4.4257 -0.8864  0.1101  0.9671  3.9380 
+    ## 
+    ## Coefficients:
+    ##                                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                    1.062020   0.039899  26.618  < 2e-16 ***
+    ## Age25-34                      -0.102784   0.022544  -4.559 5.14e-06 ***
+    ## Age35-44                       0.202439   0.023563   8.591  < 2e-16 ***
+    ## Age45-54                       0.513726   0.023399  21.955  < 2e-16 ***
+    ## Age55-64                       0.730388   0.023925  30.528  < 2e-16 ***
+    ## Age65+                         0.918158   0.024650  37.248  < 2e-16 ***
+    ## Income$15,000-$24,999          0.190377   0.023910   7.962 1.72e-15 ***
+    ## Income$25,000-$34,999          0.286714   0.024005  11.944  < 2e-16 ***
+    ## Income$35,000-$49,999          0.491674   0.022869  21.499  < 2e-16 ***
+    ## Income$50,000-$74,999          0.637115   0.022255  28.628  < 2e-16 ***
+    ## Income$75,000-$99,999          0.709090   0.024428  29.028  < 2e-16 ***
+    ## Income$100,000-$149,999        0.958711   0.025589  37.466  < 2e-16 ***
+    ## Income>$150,000                1.029874   0.030611  33.644  < 2e-16 ***
+    ## EducationHigh School           0.395850   0.038120  10.384  < 2e-16 ***
+    ## EducationSome College          0.827916   0.038050  21.758  < 2e-16 ***
+    ## EducationAssociate's           0.847691   0.040396  20.984  < 2e-16 ***
+    ## EducationBachelor's            1.234166   0.038923  31.708  < 2e-16 ***
+    ## EducationPost Graduate         1.332754   0.040649  32.787  < 2e-16 ***
+    ## Marital_StatusMarried          0.082900   0.015731   5.270 1.37e-07 ***
+    ## Marital_StatusDivorced         0.062776   0.021571   2.910  0.00361 ** 
+    ## Marital_StatusSeparated       -0.031307   0.048870  -0.641  0.52177    
+    ## Marital_StatusWidowed/widower -0.149081   0.031034  -4.804 1.56e-06 ***
+    ## Children                      -0.062664   0.006112 -10.253  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 1.295 on 54632 degrees of freedom
+    ## Multiple R-squared:  0.2376, Adjusted R-squared:  0.2372 
+    ## F-statistic: 773.7 on 22 and 54632 DF,  p-value: < 2.2e-16
+
+``` r
 plot(Demographic_Model)
 ```
 
+![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-4.png)<!-- -->
+
 ## Model with Demographic information & Crypto State-Year Variable
-```{r Model with Demographic information & Crypto State-Year Variable}
+
+``` r
 Demo_Crypto_Model <- lm(Score ~ Age 
                         + Income 
                         + Education 
@@ -218,13 +75,59 @@ Demo_Crypto_Model <- lm(Score ~ Age
                         + Crypto_State_Year
                         , data = NFCS_data)
 summary(Demo_Crypto_Model)
+```
 
+    ## 
+    ## Call:
+    ## lm(formula = Score ~ Age + Income + Education + Marital_Status + 
+    ##     Children + Crypto_State_Year, data = NFCS_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -4.4346 -0.8794  0.1037  0.9677  3.9271 
+    ## 
+    ## Coefficients:
+    ##                                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                    1.072863   0.040001  26.821  < 2e-16 ***
+    ## Age25-34                      -0.102974   0.022541  -4.568 4.93e-06 ***
+    ## Age35-44                       0.202782   0.023561   8.607  < 2e-16 ***
+    ## Age45-54                       0.514036   0.023397  21.970  < 2e-16 ***
+    ## Age55-64                       0.730640   0.023922  30.542  < 2e-16 ***
+    ## Age65+                         0.918472   0.024647  37.265  < 2e-16 ***
+    ## Income$15,000-$24,999          0.190234   0.023907   7.957 1.79e-15 ***
+    ## Income$25,000-$34,999          0.286828   0.024002  11.950  < 2e-16 ***
+    ## Income$35,000-$49,999          0.491886   0.022867  21.511  < 2e-16 ***
+    ## Income$50,000-$74,999          0.637370   0.022253  28.643  < 2e-16 ***
+    ## Income$75,000-$99,999          0.709565   0.024425  29.051  < 2e-16 ***
+    ## Income$100,000-$149,999        0.959725   0.025587  37.508  < 2e-16 ***
+    ## Income>$150,000                1.030189   0.030608  33.658  < 2e-16 ***
+    ## EducationHigh School           0.394377   0.038117  10.346  < 2e-16 ***
+    ## EducationSome College          0.825358   0.038052  21.690  < 2e-16 ***
+    ## EducationAssociate's           0.845177   0.040397  20.922  < 2e-16 ***
+    ## EducationBachelor's            1.231903   0.038923  31.649  < 2e-16 ***
+    ## EducationPost Graduate         1.330280   0.040649  32.726  < 2e-16 ***
+    ## Marital_StatusMarried          0.082816   0.015729   5.265 1.41e-07 ***
+    ## Marital_StatusDivorced         0.062690   0.021569   2.907 0.003656 ** 
+    ## Marital_StatusSeparated       -0.030654   0.048865  -0.627 0.530452    
+    ## Marital_StatusWidowed/widower -0.148915   0.031030  -4.799 1.60e-06 ***
+    ## Children                      -0.062825   0.006111 -10.280  < 2e-16 ***
+    ## Crypto_State_Year1            -0.056081   0.015087  -3.717 0.000202 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 1.295 on 54631 degrees of freedom
+    ## Multiple R-squared:  0.2377, Adjusted R-squared:  0.2374 
+    ## F-statistic: 740.8 on 23 and 54631 DF,  p-value: < 2.2e-16
+
+``` r
 plot(Demo_Crypto_Model)
 ```
 
+![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-4.png)<!-- -->
 
 ## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
-```{r Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
+
+``` r
 Demo_Crypto_Interaction_Model <- lm(Score ~ Age
                                     + Income 
                                     + Education 
@@ -234,8 +137,55 @@ Demo_Crypto_Interaction_Model <- lm(Score ~ Age
                                     + Age*Crypto_State_Year
                                     , data = NFCS_data)
 summary(Demo_Crypto_Interaction_Model)
-
-#plot(Demo_Crypto_Interaction_Model)
 ```
 
+    ## 
+    ## Call:
+    ## lm(formula = Score ~ Age + Income + Education + Marital_Status + 
+    ##     Children + Crypto_State_Year + Age * Crypto_State_Year, data = NFCS_data)
+    ## 
+    ## Residuals:
+    ##     Min      1Q  Median      3Q     Max 
+    ## -4.4316 -0.8791  0.1038  0.9624  3.9284 
+    ## 
+    ## Coefficients:
+    ##                                Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)                    1.071648   0.040601  26.395  < 2e-16 ***
+    ## Age25-34                      -0.093081   0.024373  -3.819 0.000134 ***
+    ## Age35-44                       0.204490   0.025420   8.044 8.84e-16 ***
+    ## Age45-54                       0.520949   0.025212  20.663  < 2e-16 ***
+    ## Age55-64                       0.720882   0.025682  28.069  < 2e-16 ***
+    ## Age65+                         0.917424   0.026271  34.921  < 2e-16 ***
+    ## Income$15,000-$24,999          0.190132   0.023907   7.953 1.86e-15 ***
+    ## Income$25,000-$34,999          0.286792   0.024003  11.948  < 2e-16 ***
+    ## Income$35,000-$49,999          0.491797   0.022867  21.507  < 2e-16 ***
+    ## Income$50,000-$74,999          0.637077   0.022253  28.629  < 2e-16 ***
+    ## Income$75,000-$99,999          0.709463   0.024426  29.046  < 2e-16 ***
+    ## Income$100,000-$149,999        0.959241   0.025588  37.487  < 2e-16 ***
+    ## Income>$150,000                1.029814   0.030609  33.644  < 2e-16 ***
+    ## EducationHigh School           0.394486   0.038124  10.348  < 2e-16 ***
+    ## EducationSome College          0.825553   0.038058  21.692  < 2e-16 ***
+    ## EducationAssociate's           0.845711   0.040403  20.932  < 2e-16 ***
+    ## EducationBachelor's            1.231921   0.038931  31.644  < 2e-16 ***
+    ## EducationPost Graduate         1.330043   0.040657  32.713  < 2e-16 ***
+    ## Marital_StatusMarried          0.082702   0.015731   5.257 1.47e-07 ***
+    ## Marital_StatusDivorced         0.062538   0.021569   2.899 0.003740 ** 
+    ## Marital_StatusSeparated       -0.031082   0.048866  -0.636 0.524743    
+    ## Marital_StatusWidowed/widower -0.148392   0.031032  -4.782 1.74e-06 ***
+    ## Children                      -0.062824   0.006112 -10.279  < 2e-16 ***
+    ## Crypto_State_Year1            -0.048533   0.046394  -1.046 0.295521    
+    ## Age25-34:Crypto_State_Year1   -0.063734   0.059102  -1.078 0.280872    
+    ## Age35-44:Crypto_State_Year1   -0.009448   0.059248  -0.159 0.873297    
+    ## Age45-54:Crypto_State_Year1   -0.041368   0.058474  -0.707 0.479283    
+    ## Age55-64:Crypto_State_Year1    0.060661   0.058463   1.038 0.299461    
+    ## Age65+:Crypto_State_Year1      0.007008   0.057490   0.122 0.902972    
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 1.295 on 54626 degrees of freedom
+    ## Multiple R-squared:  0.2378, Adjusted R-squared:  0.2375 
+    ## F-statistic: 608.8 on 28 and 54626 DF,  p-value: < 2.2e-16
 
+``` r
+#plot(Demo_Crypto_Interaction_Model)
+```

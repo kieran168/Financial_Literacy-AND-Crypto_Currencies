@@ -141,46 +141,54 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
 ```
 
 ```{r Changing Data Types for variables, include=FALSE}
+#Score
 NFCS_data$Score <- as.numeric(NFCS_data$Score)
 
+#Age
 NFCS_data$Age <- as.factor(NFCS_data$Age)
 levels(NFCS_data$Age)
 
+#Education
 NFCS_data$Education <- as.factor(NFCS_data$Education)
-levels(NFCS_data$Education) <-
-  c("No High School",
-    "High School",
-    "Some College",
-    "Associate's",
-    "Bachelor's",
-    "Post Graduate")
+NFCS_data$Education <- factor(NFCS_data$Education,
+                              levels = c("No High School",
+                                         "High School",
+                                         "Some College",
+                                         "Associate's",
+                                         "Bachelor's",
+                                         "Post Graduate"))
 levels(NFCS_data$Education)
 
+#Income
 NFCS_data$Income <- as.factor(NFCS_data$Income)
-levels(NFCS_data$Income) <-
-  c("<$15,000",
-    "$15,000-$24,999",
-    "$25,000-$34,999",
-    "$35,000-$49,999",
-    "$50,000-$74,999",
-    "$75,000-$99,999",
-    "$100,000-$149,999",
-    ">$150,000")
+NFCS_data$Income <- factor(NFCS_data$Income,
+                              levels = c("<$15,000",
+                                         "$15,000-$24,999",
+                                         "$25,000-$34,999",
+                                         "$35,000-$49,999",
+                                         "$50,000-$74,999",
+                                         "$75,000-$99,999",
+                                         "$100,000-$149,999",
+                                         ">$150,000"))
 levels(NFCS_data$Income)
 
+#Marital Status
 NFCS_data$Marital_Status <- as.factor(NFCS_data$Marital_Status)
-levels(NFCS_data$Marital_Status) <-
-  c("Single",
-    "Married",
-    "Divorced",
-    "Separated",
-    "Widowed/widower")
+NFCS_data$Marital_Status <- factor(NFCS_data$Marital_Status,
+                              levels = c("Single",
+                                         "Married",
+                                         "Divorced",
+                                         "Separated",
+                                         "Widowed/widower"))
 levels(NFCS_data$Marital_Status)
 
+#Children
 NFCS_data$Children <- as.integer(NFCS_data$Children)
 
+#Financial Education
 NFCS_data$Financial_Education <- as.numeric(NFCS_data$Financial_Education)
 
+#Crypto_State_Year
 NFCS_data$Crypto_State_Year <- as.factor(NFCS_data$Crypto_State_Year)
 levels(NFCS_data$Crypto_State_Year)
 ```
@@ -227,7 +235,7 @@ Demo_Crypto_Interaction_Model <- lm(Score ~ Age
                                     , data = NFCS_data)
 summary(Demo_Crypto_Interaction_Model)
 
-plot(Demo_Crypto_Interaction_Model)
+#plot(Demo_Crypto_Interaction_Model)
 ```
 
 

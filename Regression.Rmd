@@ -193,49 +193,70 @@ NFCS_data$Crypto_State_Year <- as.factor(NFCS_data$Crypto_State_Year)
 levels(NFCS_data$Crypto_State_Year)
 ```
 
+
 # Regression Models
-## Model with Demographic information only
-```{r Model with Demographic information only}
-Demographic_Model <- lm(Score ~ Age 
-                        + Income 
-                        + Education 
-                        + Marital_Status 
-                        + Children
-                        , data = NFCS_data)
+## Model #1: Demographic information only
+```{r Model #1: Demographic information only}
+Model_1 <- lm(Score ~ Age 
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children
+              , data = NFCS_data)
+summary(Model_1)
 
-summary(Demographic_Model)
-
-plot(Demographic_Model)
+plot(Model_1)
 ```
 
-## Model with Demographic information & Crypto State-Year Variable
-```{r Model with Demographic information & Crypto State-Year Variable}
-Demo_Crypto_Model <- lm(Score ~ Age 
-                        + Income 
-                        + Education 
-                        + Marital_Status 
-                        + Children 
-                        + Crypto_State_Year
-                        , data = NFCS_data)
-summary(Demo_Crypto_Model)
-
-plot(Demo_Crypto_Model)
+### Model #1: Multicollinearity Check
+```{r Model #1: Multicollinearity Check}
+car::vif(Model_1)
+#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
+#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
 ```
 
+## Model #2: Demographic information & Crypto State-Year Variable
+```{r Model #2: Demographic information & Crypto State-Year Variable}
+Model_2 <- lm(Score ~ Age 
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_2)
 
-## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
-```{r Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Demo_Crypto_Interaction_Model <- lm(Score ~ Age
-                                    + Income 
-                                    + Education 
-                                    + Marital_Status 
-                                    + Children 
-                                    + Crypto_State_Year 
-                                    + Age*Crypto_State_Year
-                                    , data = NFCS_data)
-summary(Demo_Crypto_Interaction_Model)
-
-#plot(Demo_Crypto_Interaction_Model)
+plot(Model_2)
 ```
 
 
+### Model #2: Multicollinearity Check
+```{r Model #2: Multicollinearity Check}
+car::vif(Model_2)
+#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
+#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
+```
+
+
+
+## Model #3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
+```{r Model #3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
+Model_3 <- lm(Score ~ Age
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year 
+              + Age*Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_3)
+
+#plot(Model_3)
+```
+
+### Model #3: Multicollinearity Check
+```{r Model #3: Multicollinearity Check}
+car::vif(Model_3)
+#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
+#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
+```

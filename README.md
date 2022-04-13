@@ -4,17 +4,16 @@ Kieran Yuen
 
 # Regression Models
 
-## Model with Demographic information only
+## Model \#1: Demographic information only
 
 ``` r
-Demographic_Model <- lm(Score ~ Age 
-                        + Income 
-                        + Education 
-                        + Marital_Status 
-                        + Children
-                        , data = NFCS_data)
-
-summary(Demographic_Model)
+Model_1 <- lm(Score ~ Age 
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children
+              , data = NFCS_data)
+summary(Model_1)
 ```
 
     ## 
@@ -59,22 +58,40 @@ summary(Demographic_Model)
     ## F-statistic: 773.7 on 22 and 54632 DF,  p-value: < 2.2e-16
 
 ``` r
-plot(Demographic_Model)
+plot(Model_1)
 ```
 
-![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20only-4.png)<!-- -->
+![](Regression_files/figure-gfm/Model%20#1:%20Demographic%20information%20only-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20#1:%20Demographic%20information%20only-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20#1:%20Demographic%20information%20only-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20#1:%20Demographic%20information%20only-4.png)<!-- -->
 
-## Model with Demographic information & Crypto State-Year Variable
+### Model \#1: Multicollinearity Check
 
 ``` r
-Demo_Crypto_Model <- lm(Score ~ Age 
-                        + Income 
-                        + Education 
-                        + Marital_Status 
-                        + Children 
-                        + Crypto_State_Year
-                        , data = NFCS_data)
-summary(Demo_Crypto_Model)
+car::vif(Model_1)
+```
+
+    ##                    GVIF Df GVIF^(1/(2*Df))
+    ## Age            1.897111  5        1.066128
+    ## Income         1.611006  7        1.034648
+    ## Education      1.275290  5        1.024615
+    ## Marital_Status 1.889156  4        1.082763
+    ## Children       1.355032  1        1.164058
+
+``` r
+#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
+#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
+```
+
+## Model \#2: Demographic information & Crypto State-Year Variable
+
+``` r
+Model_2 <- lm(Score ~ Age 
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_2)
 ```
 
     ## 
@@ -120,23 +137,42 @@ summary(Demo_Crypto_Model)
     ## F-statistic: 740.8 on 23 and 54631 DF,  p-value: < 2.2e-16
 
 ``` r
-plot(Demo_Crypto_Model)
+plot(Model_2)
 ```
 
-![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20with%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-4.png)<!-- -->
+![](Regression_files/figure-gfm/Model%20#2:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20#2:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20#2:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20#2:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable-4.png)<!-- -->
 
-## Model with Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
+### Model \#2: Multicollinearity Check
 
 ``` r
-Demo_Crypto_Interaction_Model <- lm(Score ~ Age
-                                    + Income 
-                                    + Education 
-                                    + Marital_Status 
-                                    + Children 
-                                    + Crypto_State_Year 
-                                    + Age*Crypto_State_Year
-                                    , data = NFCS_data)
-summary(Demo_Crypto_Interaction_Model)
+car::vif(Model_2)
+```
+
+    ##                       GVIF Df GVIF^(1/(2*Df))
+    ## Age               1.897261  5        1.066136
+    ## Income            1.611313  7        1.034662
+    ## Education         1.276116  5        1.024682
+    ## Marital_Status    1.889199  4        1.082766
+    ## Children          1.355099  1        1.164087
+    ## Crypto_State_Year 1.000965  1        1.000482
+
+``` r
+#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
+#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
+```
+
+## Model \#3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
+
+``` r
+Model_3 <- lm(Score ~ Age
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year 
+              + Age*Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_3)
 ```
 
     ## 
@@ -187,5 +223,25 @@ summary(Demo_Crypto_Interaction_Model)
     ## F-statistic: 608.8 on 28 and 54626 DF,  p-value: < 2.2e-16
 
 ``` r
-#plot(Demo_Crypto_Interaction_Model)
+#plot(Model_3)
+```
+
+### Model \#3: Multicollinearity Check
+
+``` r
+car::vif(Model_3)
+```
+
+    ##                            GVIF Df GVIF^(1/(2*Df))
+    ## Age                    4.160504  5        1.153226
+    ## Income                 1.612946  7        1.034737
+    ## Education              1.277093  5        1.024760
+    ## Marital_Status         1.890551  4        1.082863
+    ## Children               1.355384  1        1.164209
+    ## Crypto_State_Year      9.465291  1        3.076571
+    ## Age:Crypto_State_Year 19.530603  5        1.346082
+
+``` r
+#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
+#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
 ```

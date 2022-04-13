@@ -1,28 +1,47 @@
 ---
 title: "Financial Literacy and Cryptocurrency"
-font-family: 'Corbel'
-author: Kieran Yuen
-output: rmarkdown::github_document
+author: "Kieran Yuen"
+font-family: Corbel
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
 ---
-
+# r setup
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Loading in NFCS data
 ```{r Loading in NFCS data, include=FALSE}
 library(readxl)
 X04092022_NFCS_2018_State_Tracking_Data_190623 <- read_excel("04092022_NFCS 2018 State Tracking Data 190623.xlsx")
-View(X04092022_NFCS_2018_State_Tracking_Data_190623)
 ```
 
-
+# Cleaning Data
 ```{r Cleaning Data, include=FALSE}
 library(tidyverse)
 NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>% 
-  select(TRACK,NFCSID,STATEQ,A3Ar_w,A5_2015,A8,A6,A11,M4,M6,M7,M8,M9,M10) %>%
+  select(TRACK,
+         NFCSID,
+         STATEQ,
+         A3,
+         A3Ar_w,
+         A5_2015,
+         A8,
+         A6,
+         A11,
+         M4,
+         M6,
+         M7,
+         M8,
+         M9,
+         M10) %>%
+  
   rename(Year = TRACK,
          NFCS_ID = NFCSID,
          State = STATEQ,
+         Gender = A3,
          Age = A3Ar_w,
          Education = A5_2015,
          Income = A8,
@@ -34,43 +53,62 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
          Question_3 = M8,
          Question_4 = M9,
          Question_5 = M10) %>%
-  na.omit() %>% 
+  
+  na.omit() %>%
+  
   filter(Year =="2018"|
            Year == "2015") %>%
-  mutate(Age = recode(Age,
-                      '1' = "18-24",
-                      '2' = "25-34",
-                      '3' = "35-44",
-                      '4' = "45-54",
-                      '5' = "55-64",
-                      '6' = "65+")) %>%
+  
+  mutate(Gender = recode(Gender,
+                      '1' = 1,
+                      '2' = 0)) %>%
+  # mutate(Age = recode(Age,
+  #                     '1' = "18-24",
+  #                     '2' = "25-34",
+  #                     '3' = "35-44",
+  #                     '4' = "45-54",
+  #                     '5' = "55-64",
+  #                     '6' = "65+")) %>%
+  
+  mutate(Age_24_or_younger = Age == 1,
+         Age_24_or_younger = ifelse(Age_24_or_younger == TRUE, 1, 0)) %>%
+  
+  mutate(Age_34_or_younger = (Age == 1 | Age == 2),
+         Age_34_or_younger = ifelse(Age_34_or_younger == TRUE, 1, 0)) %>%
+  
+  mutate(Age_44_or_younger = (Age == 1 | Age == 2 | Age == 3),
+         Age_44_or_younger = ifelse(Age_44_or_younger == TRUE, 1, 0)) %>%
+  
   mutate(Education = recode(Education,
-                      '1' = "No High School",
-                      '2' = "High School",
-                      '3' = "High School",
-                      '4' = "Some College",
-                      '5' = "Associate's",
-                      '6' = "Bachelor's",
-                      '7' = "Post Graduate",
-                      '99' = 'NA')) %>%
+                      '1' = 1,
+                      '2' = 2,
+                      '3' = 3,
+                      '4' = 4,
+                      '5' = 5,
+                      '6' = 6,
+                      '7' = 7,
+                      '99' = NA_real_)) %>%
+  
   mutate(Income = recode(Income,
-                      '1' = "<$15,000",
-                      '2' = "$15,000-$24,999",
-                      '3' = "$25,000-$34,999",
-                      '4' = "$35,000-$49,999",
-                      '5' = "$50,000-$74,999",
-                      '6' = "$75,000-$99,999",
-                      '7' = "$100,000-$149,999",
-                      '8' = ">$150,000",
-                      '98' = 'NA',
-                      '99' = 'NA')) %>%
+                      '1' = 1,
+                      '2' = 2,
+                      '3' = 3,
+                      '4' = 4,
+                      '5' = 5,
+                      '6' = 6,
+                      '7' = 7,
+                      '8' = 8,
+                      '98' = NA_real_,
+                      '99' = NA_real_)) %>%
+  
   mutate(Marital_Status = recode(Marital_Status,
                       '1' = "Married",
                       '2' = "Single",
-                      '3' = "Separated",
+                      '3' = "Divorced",
                       '4' = "Divorced",
                       '5' = "Widowed/widower",
                       '99' = 'NA')) %>%
+  
   mutate(Children = recode(Children,
                       '1' = 1,
                       '2' = 2,
@@ -79,6 +117,7 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                       '5' = 0,
                       '6' = 0,
                       '99' = NA_real_)) %>%
+  
     mutate(Financial_Education = recode(Financial_Education,
                       '1' = 1,
                       '2' = 2,
@@ -89,18 +128,21 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                       '7' = 7,
                       '98' = NA_real_,
                       '99' = NA_real_)) %>%
+  
   mutate(Question_1 = recode(Question_1,
                       '1' = 1,
                       '2' = 0,
                       '3' = 0,
                       '98' = NA_real_,
                       '99' = NA_real_)) %>%
+  
   mutate(Question_2 = recode(Question_2,
                       '1' = 0,
                       '2' = 0,
                       '3' = 1,
                       '98' = NA_real_,
                       '99' = NA_real_)) %>%
+  
   mutate(Question_3 = recode(Question_3,
                       '1' = 0,
                       '2' = 1,
@@ -108,19 +150,24 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                       '4' = 0,
                       '98' = NA_real_,
                       '99' = NA_real_)) %>%
+  
   mutate(Question_4 = recode(Question_4,
                       '1' = 1,
                       '2' = 0,
                       '98' = NA_real_,
                       '99' = NA_real_)) %>%
+  
   mutate(Question_5 = recode(Question_5,
                       '1' = 0,
                       '2' = 1,
                       '98' = NA_real_,
                       '99' = NA_real_)) %>%
+  
   mutate(Score = select(., Question_1:Question_5) %>% 
            rowSums(na.rm = TRUE)) %>% 
+  
   unite("State_Year", State, Year, remove = FALSE) %>% 
+  
   mutate(Crypto_State_Year = ifelse(State_Year == '1_2018'
                                     |State_Year =='10_2018'
                                     |State_Year =='11_2018'
@@ -137,40 +184,30 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                                     |State_Year =='48_2018'
                                     |State_Year =='7_2015'
                                     |State_Year =='7_2018'
-                                    ,1,0))
+                                    ,1,0)) 
 ```
 
+
+
+# Changing Data Types for variables
 ```{r Changing Data Types for variables, include=FALSE}
-#Score
-NFCS_data$Score <- as.numeric(NFCS_data$Score)
+#Gender
+NFCS_data$Gender <- as.factor(NFCS_data$Gender)
 
 #Age
-NFCS_data$Age <- as.factor(NFCS_data$Age)
-levels(NFCS_data$Age)
+NFCS_data$Age <- as.integer(NFCS_data$Age)
+
+NFCS_data$Age_24_or_younger <- as.factor(NFCS_data$Age_24_or_younger)
+
+NFCS_data$Age_34_or_younger <- as.factor(NFCS_data$Age_34_or_younger)
+
+NFCS_data$Age_44_or_younger <- as.factor(NFCS_data$Age_44_or_younger)
 
 #Education
-NFCS_data$Education <- as.factor(NFCS_data$Education)
-NFCS_data$Education <- factor(NFCS_data$Education,
-                              levels = c("No High School",
-                                         "High School",
-                                         "Some College",
-                                         "Associate's",
-                                         "Bachelor's",
-                                         "Post Graduate"))
-levels(NFCS_data$Education)
+NFCS_data$Education <- as.integer(NFCS_data$Education)
 
 #Income
-NFCS_data$Income <- as.factor(NFCS_data$Income)
-NFCS_data$Income <- factor(NFCS_data$Income,
-                              levels = c("<$15,000",
-                                         "$15,000-$24,999",
-                                         "$25,000-$34,999",
-                                         "$35,000-$49,999",
-                                         "$50,000-$74,999",
-                                         "$75,000-$99,999",
-                                         "$100,000-$149,999",
-                                         ">$150,000"))
-levels(NFCS_data$Income)
+NFCS_data$Income <- as.integer(NFCS_data$Income)
 
 #Marital Status
 NFCS_data$Marital_Status <- as.factor(NFCS_data$Marital_Status)
@@ -180,24 +217,27 @@ NFCS_data$Marital_Status <- factor(NFCS_data$Marital_Status,
                                          "Divorced",
                                          "Separated",
                                          "Widowed/widower"))
-levels(NFCS_data$Marital_Status)
 
-#Children
+# Children
 NFCS_data$Children <- as.integer(NFCS_data$Children)
 
 #Financial Education
-NFCS_data$Financial_Education <- as.numeric(NFCS_data$Financial_Education)
+# NFCS_data$Financial_Education <- as.numeric(NFCS_data$Financial_Education)
+
+#Score
+NFCS_data$Score <- as.integer(NFCS_data$Score)
 
 #Crypto_State_Year
 NFCS_data$Crypto_State_Year <- as.factor(NFCS_data$Crypto_State_Year)
-levels(NFCS_data$Crypto_State_Year)
 ```
 
 
 # Regression Models
 ## Model #1: Demographic information only
 ```{r Model #1: Demographic information only}
-Model_1 <- lm(Score ~ Age 
+Model_1 <- lm(Score ~ 
+                Gender
+              + Age 
               + Income 
               + Education 
               + Marital_Status 
@@ -217,7 +257,8 @@ car::vif(Model_1)
 
 ## Model #2: Demographic information & Crypto State-Year Variable
 ```{r Model #2: Demographic information & Crypto State-Year Variable}
-Model_2 <- lm(Score ~ Age 
+Model_2 <- lm(Score ~ Gender
+              + Age 
               + Income 
               + Education 
               + Marital_Status 
@@ -241,18 +282,56 @@ car::vif(Model_2)
 
 ## Model #3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
 ```{r Model #3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Model_3 <- lm(Score ~ Age
+Model_3 <- lm(Score ~ Gender
+              + Age
               + Income 
               + Education 
               + Marital_Status 
               + Children 
               + Crypto_State_Year 
-              + Age*Crypto_State_Year
+              + Age_24_or_younger*Crypto_State_Year
               , data = NFCS_data)
 summary(Model_3)
 
-#plot(Model_3)
+plot(Model_3)
 ```
+
+```{r Model #4: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
+Model_4 <- lm(Score ~ Gender
+              + Age
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year 
+              + Age_34_or_younger*Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_4)
+
+plot(Model_4)
+```
+
+```{r Model #5: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
+Model_5 <- lm(Score ~ Gender
+              + Age
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year 
+              + Age_44_or_younger*Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_5)
+
+plot(Model_5)
+```
+
+
+
+
+
+
+
 
 ### Model #3: Multicollinearity Check
 ```{r Model #3: Multicollinearity Check}

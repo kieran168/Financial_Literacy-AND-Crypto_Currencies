@@ -2,6 +2,14 @@ Financial Literacy and Cryptocurrency
 ================
 Kieran Yuen
 
+# r setup
+
+# Loading in NFCS data
+
+# Cleaning Data
+
+# Changing Data Types for variables
+
 # Regression Models
 
 ## Model \#1: Demographic information only
@@ -223,8 +231,10 @@ summary(Model_3)
     ## F-statistic: 608.8 on 28 and 54626 DF,  p-value: < 2.2e-16
 
 ``` r
-#plot(Model_3)
+plot(Model_3)
 ```
+
+![](Regression_files/figure-gfm/Model%20#3:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-1.png)<!-- -->![](Regression_files/figure-gfm/Model%20#3:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-2.png)<!-- -->![](Regression_files/figure-gfm/Model%20#3:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-3.png)<!-- -->![](Regression_files/figure-gfm/Model%20#3:%20Demographic%20information%20&%20Crypto%20State-Year%20Variable%20&%20interaction%20of%20Age%20and%20Crypto%20State-Year%20variable-4.png)<!-- -->
 
 ### Model \#3: Multicollinearity Check
 

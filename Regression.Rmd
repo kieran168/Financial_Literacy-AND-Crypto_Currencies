@@ -3,23 +3,22 @@ title: "Financial Literacy and Cryptocurrency"
 author: "Kieran Yuen"
 font-family: Corbel
 output:
-  word_document: default
-  html_document: default
-  pdf_document: default
+  github_document:
+    toc: true
 ---
-# r setup
-```{r setup, include=FALSE}
+# R setup
+```{R setup}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Loading in NFCS data
-```{r Loading in NFCS data, include=FALSE}
+```{r Loading in NFCS data}
 library(readxl)
 X04092022_NFCS_2018_State_Tracking_Data_190623 <- read_excel("04092022_NFCS 2018 State Tracking Data 190623.xlsx")
 ```
 
 # Cleaning Data
-```{r Cleaning Data, include=FALSE}
+```{r Cleaning Data}
 library(tidyverse)
 NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>% 
   select(TRACK,
@@ -27,11 +26,11 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
          STATEQ,
          A3,
          A3Ar_w,
+         A4A_new_w, 
          A5_2015,
          A8,
          A6,
          A11,
-         M4,
          M6,
          M7,
          M8,
@@ -43,11 +42,11 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
          State = STATEQ,
          Gender = A3,
          Age = A3Ar_w,
+         Ethnicity = A4A_new_w,
          Education = A5_2015,
          Income = A8,
          Marital_Status = A6,
          Children = A11,
-         Financial_Education = M4,
          Question_1 = M6,
          Question_2 = M7,
          Question_3 = M8,
@@ -62,13 +61,6 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
   mutate(Gender = recode(Gender,
                       '1' = 1,
                       '2' = 0)) %>%
-  # mutate(Age = recode(Age,
-  #                     '1' = "18-24",
-  #                     '2' = "25-34",
-  #                     '3' = "35-44",
-  #                     '4' = "45-54",
-  #                     '5' = "55-64",
-  #                     '6' = "65+")) %>%
   
   mutate(Age_24_or_younger = Age == 1,
          Age_24_or_younger = ifelse(Age_24_or_younger == TRUE, 1, 0)) %>%
@@ -79,14 +71,18 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
   mutate(Age_44_or_younger = (Age == 1 | Age == 2 | Age == 3),
          Age_44_or_younger = ifelse(Age_44_or_younger == TRUE, 1, 0)) %>%
   
+  mutate(Ethnicity = recode(Ethnicity,
+                      '1' = 1,
+                      '2' = 0)) %>%
+  
   mutate(Education = recode(Education,
                       '1' = 1,
                       '2' = 2,
-                      '3' = 3,
-                      '4' = 4,
-                      '5' = 5,
-                      '6' = 6,
-                      '7' = 7,
+                      '3' = 2,
+                      '4' = 3,
+                      '5' = 4,
+                      '6' = 5,
+                      '7' = 6,
                       '99' = NA_real_)) %>%
   
   mutate(Income = recode(Income,
@@ -116,17 +112,6 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                       '4' = 4,
                       '5' = 0,
                       '6' = 0,
-                      '99' = NA_real_)) %>%
-  
-    mutate(Financial_Education = recode(Financial_Education,
-                      '1' = 1,
-                      '2' = 2,
-                      '3' = 3,
-                      '4' = 4,
-                      '5' = 5,
-                      '6' = 6,
-                      '7' = 7,
-                      '98' = NA_real_,
                       '99' = NA_real_)) %>%
   
   mutate(Question_1 = recode(Question_1,
@@ -203,6 +188,9 @@ NFCS_data$Age_34_or_younger <- as.factor(NFCS_data$Age_34_or_younger)
 
 NFCS_data$Age_44_or_younger <- as.factor(NFCS_data$Age_44_or_younger)
 
+#Ethnicity
+NFCS_data$Ethnicity <- as.factor(NFCS_data$Ethnicity)
+
 #Education
 NFCS_data$Education <- as.integer(NFCS_data$Education)
 
@@ -221,9 +209,6 @@ NFCS_data$Marital_Status <- factor(NFCS_data$Marital_Status,
 # Children
 NFCS_data$Children <- as.integer(NFCS_data$Children)
 
-#Financial Education
-# NFCS_data$Financial_Education <- as.numeric(NFCS_data$Financial_Education)
-
 #Score
 NFCS_data$Score <- as.integer(NFCS_data$Score)
 
@@ -235,30 +220,23 @@ NFCS_data$Crypto_State_Year <- as.factor(NFCS_data$Crypto_State_Year)
 # Regression Models
 ## Model #1: Demographic information only
 ```{r Model #1: Demographic information only}
-Model_1 <- lm(Score ~ 
-                Gender
-              + Age 
+Model_1 <- lm(Score ~ Gender
+              + Age
+              + Ethnicity
               + Income 
               + Education 
               + Marital_Status 
               + Children
               , data = NFCS_data)
 summary(Model_1)
-
-plot(Model_1)
 ```
 
-### Model #1: Multicollinearity Check
-```{r Model #1: Multicollinearity Check}
-car::vif(Model_1)
-#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
-#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
-```
 
 ## Model #2: Demographic information & Crypto State-Year Variable
 ```{r Model #2: Demographic information & Crypto State-Year Variable}
 Model_2 <- lm(Score ~ Gender
-              + Age 
+              + Age
+              + Ethnicity
               + Income 
               + Education 
               + Marital_Status 
@@ -266,24 +244,14 @@ Model_2 <- lm(Score ~ Gender
               + Crypto_State_Year
               , data = NFCS_data)
 summary(Model_2)
-
-plot(Model_2)
 ```
 
 
-### Model #2: Multicollinearity Check
-```{r Model #2: Multicollinearity Check}
-car::vif(Model_2)
-#variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
-#The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
-```
-
-
-
-## Model #3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable
-```{r Model #3: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Model_3 <- lm(Score ~ Gender
+## Model #3a: Demographic information & Crypto State-Year Variable & interaction of Age_24_or_younger and Crypto State-Year variable
+```{r Model #3a: Demographic information & Crypto State-Year Variable & interaction of Age_24_or_younger and Crypto State-Year variable}
+Model_3a <- lm(Score ~ Gender
               + Age
+              + Ethnicity
               + Income 
               + Education 
               + Marital_Status 
@@ -291,14 +259,14 @@ Model_3 <- lm(Score ~ Gender
               + Crypto_State_Year 
               + Age_24_or_younger*Crypto_State_Year
               , data = NFCS_data)
-summary(Model_3)
-
-plot(Model_3)
+summary(Model_3a)
 ```
 
-```{r Model #4: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Model_4 <- lm(Score ~ Gender
+## Model #3b: Demographic information & Crypto State-Year Variable & interaction of Age_34_or_younger and Crypto State-Year variable
+```{r Model #3b: Demographic information & Crypto State-Year Variable & interaction of Age_34_or_younger and Crypto State-Year variable}
+Model_3b <- lm(Score ~ Gender
               + Age
+              + Ethnicity
               + Income 
               + Education 
               + Marital_Status 
@@ -306,14 +274,14 @@ Model_4 <- lm(Score ~ Gender
               + Crypto_State_Year 
               + Age_34_or_younger*Crypto_State_Year
               , data = NFCS_data)
-summary(Model_4)
-
-plot(Model_4)
+summary(Model_3b)
 ```
 
-```{r Model #5: Demographic information & Crypto State-Year Variable & interaction of Age and Crypto State-Year variable}
-Model_5 <- lm(Score ~ Gender
+## Model #3c: Demographic information & Crypto State-Year Variable & interaction of Age_44_or_younger and Crypto State-Year variable
+```{r Model #3c: Demographic information & Crypto State-Year Variable & interaction of Age_44_or_younger and Crypto State-Year variable}
+Model_3c <- lm(Score ~ Gender
               + Age
+              + Ethnicity
               + Income 
               + Education 
               + Marital_Status 
@@ -321,9 +289,97 @@ Model_5 <- lm(Score ~ Gender
               + Crypto_State_Year 
               + Age_44_or_younger*Crypto_State_Year
               , data = NFCS_data)
-summary(Model_5)
+summary(Model_3c)
+```
 
-plot(Model_5)
+
+## Model #4: Demographic information & Crypto State-Year Variable & Age-squared variable
+```{r Model #4: Demographic information & Crypto State-Year Variable & Age-squared variable}
+
+NFCS_data$Age_squared <- NFCS_data$Age^2
+
+Model_4 <- lm(Score ~ Gender
+              + Age
+              + Ethnicity
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year
+              + Age_squared
+              , data = NFCS_data)
+summary(Model_4)
+
+library(jtools)
+summ(Model_4)
+
+# effect_plot(Model_4, pred = Age_squared, interval = TRUE)
+# effect_plot(Model_4, pred = Age, interval = TRUE)
+
+```
+
+
+
+
+## Model #5a: Demographic information & Crypto State-Year Variable & interaction of Age_24_or_younger and Crypto State-Year variable excluding MAIN EFFECT of Age_24_or_younger
+```{r Model #5a: Demographic information & Crypto State-Year Variable & Age-squared variable}
+Model_5a <- lm(Score ~ Gender
+              + Age
+              + Ethnicity
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year
+              + Age_24_or_younger:Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_5a)
+
+# stargazer(Model_5a,type="text",omit=":")
+
+library(jtools)
+summ(Model_5a)
+```
+
+
+
+## Model #5b: Demographic information & Crypto State-Year Variable & interaction of Age_34_or_younger and Crypto State-Year variable excluding MAIN EFFECT of Age_34_or_younger
+```{r Model #5b: Demographic information & Crypto State-Year Variable & Age-squared variable}
+Model_5b <- lm(Score ~ Gender
+              + Age
+              + Ethnicity
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year
+              + Age_34_or_younger:Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_5b)
+
+library(jtools)
+summ(Model_5b)
+```
+
+
+
+
+## Model #5c: Demographic information & Crypto State-Year Variable & interaction of Age_44_or_younger and Crypto State-Year variable excluding MAIN EFFECT of Age_44_or_younger
+```{r Model #5c: Demographic information & Crypto State-Year Variable & Age-squared variable}
+Model_5c <- lm(Score ~ Gender
+              + Age
+              + Ethnicity
+              + Income 
+              + Education 
+              + Marital_Status 
+              + Children 
+              + Crypto_State_Year
+              + Age_44_or_younger:Crypto_State_Year
+              , data = NFCS_data)
+summary(Model_5c)
+
+library(jtools)
+summ(Model_5c)
 ```
 
 
@@ -333,9 +389,15 @@ plot(Model_5)
 
 
 
-### Model #3: Multicollinearity Check
+
+
+# Multicollinearity Checks
 ```{r Model #3: Multicollinearity Check}
-car::vif(Model_3)
+car::vif(Model_1)
+car::vif(Model_2)
+car::vif(Model_3a)
+car::vif(Model_3b)
+car::vif(Model_3c)
 #variance inflation factor: measures how much the variance of a regression coefficient is inflated due to multicollinearity in the model
 #The smallest possible value of VIF is one (absence of multicollinearity). As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity (James et al. 2014).
 ```

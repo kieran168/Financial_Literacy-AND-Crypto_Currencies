@@ -1,4 +1,5 @@
-Financial Literacy and Cryptocurrency
+Analysis of the influence of cryptocurrency regulation on levels of
+financial literacy
 ================
 Kieran Yuen
 

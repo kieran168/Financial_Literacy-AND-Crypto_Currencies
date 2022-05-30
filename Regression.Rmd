@@ -1,16 +1,11 @@
 ---
-title: "Financial Literacy and Cryptocurrency"
+title: "Analysis of the influence of cryptocurrency regulation on levels of financial literacy"
 author: "Kieran Yuen"
 font-family: Corbel
 output:
   github_document:
     toc: true
 ---
-# R setup
-```{R setup}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 # Loading in NFCS data
 ```{r Loading in NFCS data}
 library(readxl)
@@ -18,7 +13,7 @@ X04092022_NFCS_2018_State_Tracking_Data_190623 <- read_excel("04092022_NFCS 2018
 ```
 
 # Cleaning Data
-```{r Cleaning Data}
+```{r Cleaning Data, include=TRUE}
 library(tidyverse)
 NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>% 
   select(TRACK,
@@ -62,15 +57,6 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                       '1' = 1,
                       '2' = 0)) %>%
   
-  mutate(Age_24_or_younger = Age == 1,
-         Age_24_or_younger = ifelse(Age_24_or_younger == TRUE, 1, 0)) %>%
-  
-  mutate(Age_34_or_younger = (Age == 1 | Age == 2),
-         Age_34_or_younger = ifelse(Age_34_or_younger == TRUE, 1, 0)) %>%
-  
-  mutate(Age_44_or_younger = (Age == 1 | Age == 2 | Age == 3),
-         Age_44_or_younger = ifelse(Age_44_or_younger == TRUE, 1, 0)) %>%
-  
   mutate(Ethnicity = recode(Ethnicity,
                       '1' = 1,
                       '2' = 0)) %>%
@@ -98,12 +84,12 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
                       '99' = NA_real_)) %>%
   
   mutate(Marital_Status = recode(Marital_Status,
-                      '1' = "Married",
-                      '2' = "Single",
-                      '3' = "Divorced",
-                      '4' = "Divorced",
-                      '5' = "Widowed/widower",
-                      '99' = 'NA')) %>%
+                      '1' = 1,
+                      '2' = 0,
+                      '3' = 0,
+                      '4' = 0,
+                      '5' = 0,
+                      '99' = NA_real_)) %>%
   
   mutate(Children = recode(Children,
                       '1' = 1,
@@ -175,18 +161,12 @@ NFCS_data <- X04092022_NFCS_2018_State_Tracking_Data_190623 %>%
 
 
 # Changing Data Types for variables
-```{r Changing Data Types for variables, include=FALSE}
+```{r Changing Data Types for variables, echo=FALSE}
 #Gender
 NFCS_data$Gender <- as.factor(NFCS_data$Gender)
 
 #Age
 NFCS_data$Age <- as.integer(NFCS_data$Age)
-
-NFCS_data$Age_24_or_younger <- as.factor(NFCS_data$Age_24_or_younger)
-
-NFCS_data$Age_34_or_younger <- as.factor(NFCS_data$Age_34_or_younger)
-
-NFCS_data$Age_44_or_younger <- as.factor(NFCS_data$Age_44_or_younger)
 
 #Ethnicity
 NFCS_data$Ethnicity <- as.factor(NFCS_data$Ethnicity)
@@ -199,12 +179,6 @@ NFCS_data$Income <- as.integer(NFCS_data$Income)
 
 #Marital Status
 NFCS_data$Marital_Status <- as.factor(NFCS_data$Marital_Status)
-NFCS_data$Marital_Status <- factor(NFCS_data$Marital_Status,
-                              levels = c("Single",
-                                         "Married",
-                                         "Divorced",
-                                         "Separated",
-                                         "Widowed/widower"))
 
 # Children
 NFCS_data$Children <- as.integer(NFCS_data$Children)
@@ -215,6 +189,60 @@ NFCS_data$Score <- as.integer(NFCS_data$Score)
 #Crypto_State_Year
 NFCS_data$Crypto_State_Year <- as.factor(NFCS_data$Crypto_State_Year)
 ```
+
+
+
+
+# Summary Statistics
+## Summary Statistics: Overall
+```{r Summary Statistics: Overall}
+library(psych)
+#Overall
+mean(NFCS_data$Score)
+sd(NFCS_data$Score)
+mean(NFCS_data$Age)
+sd(NFCS_data$Age)
+mean(NFCS_data$Education)
+sd(NFCS_data$Education)
+mean(NFCS_data$Income)
+sd(NFCS_data$Income)
+mean(NFCS_data$Children)
+sd(NFCS_data$Children)
+
+describeBy(NFCS_data)
+
+#Crypto_State_Year=0
+describeBy(NFCS_data, group = NFCS_data$Crypto_State_Year)
+
+```
+
+## Summary Statistics: Crypto_State_Year
+```{r Summary Statistics: Crypto_State_Year}
+library(gmodels)
+
+CrossTable(NFCS_data$Score, NFCS_data$Crypto_State_Year, prop.chisq=FALSE, prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Gender, NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Age,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Ethnicity,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Education,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Income,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Marital_Status,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Children,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+
+CrossTable(NFCS_data$Crypto_State_Year,NFCS_data$Crypto_State_Year, prop.chisq=FALSE,  prop.t=FALSE, prop.r=TRUE, prop.c=TRUE)
+```
+
+
+
+
+
 
 
 # Regression Models
@@ -249,3 +277,8 @@ nobs(Model_2) #Number of Observations
 ```
 
 
+## Regression Results Table
+```{r Regression Results Table}
+library(stargazer)
+stargazer(Model_1, Model_2, type = "text")
+```

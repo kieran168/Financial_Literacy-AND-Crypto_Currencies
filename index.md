@@ -1,37 +1,43 @@
-## Welcome to GitHub Pages
+# Abstract
+Using data collected by the National Financial Capability Study (NFCS), a survey by the Financial Industry Regulatory Authority (FINRA), this paper investigates the influence of passage of cryptocurrency regulation in U.S. states on levels of financial literacy. Results indicate that living in a state where cryptocurrency regulation was signed into law, a decrease was observed in the level of financial literacy. This finding supports the growing literature on factors that affect levels of financial literacy using a novel exogenous variable, cryptocurrency regulation.
 
-You can use the [editor on GitHub](https://github.com/kieran168/Financial_Literacy-AND-Crypto_Currencies/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Keywords
+Financial literacy · Cryptocurrency regulation · OLS regression · United States · Political Economy
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# 1. Introduction
+The subject of financial literacy is an important topic as it has many benefits for those who have a high level of it. From higher expected wealth (Rooij et al., 2011) to being more likely to succeed at planning for one’s retirement (Lusardi et al., 2011). The rate of financial literacy as gauged in the 2018 NFCS survey found that only 34% of Americans were able to get four out of five financial literacy questions correct (FINRA, 2019, p.33). Looking at another reliable report that assesses financial literacy, S&P Global Finlit Survey, they define financial illiteracy a little differently, not being able to answer 3 out of 4 questions correctly, and they put the U.S. at 43% illiteracy (GFLEC, 2019). So, understanding more about what affects levels of financial literacy is important for the individual and for society.
 
-### Markdown
+It has been found in the literature that the traditional methods of financial education do improve financial knowledge aka objective financial knowledge aka financial literacy according to a meta-analysis by Kaiser et al. (2021). But this paper seeks to expand on the study of financial literacy and relate it to a more novel topic, interest in cryptocurrency and its impact on levels of financial literacy.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+The topic of cryptocurrency and financial literacy has been studied by others, but the studies referenced in those papers focus on the reasons and motivations why people invested in cryptocurrency, including financial literacy as an explanatory variable in their model to predict why people became cryptocurrency investors. This paper is different in two distinct ways: we are using cryptocurrency as an independent variable (rather than a dependent variable like in those other studies), and we are not looking at investment into cryptocurrency but rather we are looking at the interest in cryptocurrency that is driven by the passage of cryptocurrency regulation. 
 
-```markdown
-Syntax highlighted code block
+Specifically, this paper investigates the determinants of financial literacy with a focus on the novel policy of cryptocurrency regulation at the state-level in the United States. And we hypothesize that the passage of cryptocurrency regulation, which adds legitimacy to cryptocurrency, will incentivize and bring in new investors who have never invested in crypto and through that process of learning about cryptocurrency they will, as a byproduct, increase their level of financial literacy. 
 
-# Header 1
-## Header 2
-### Header 3
+To measure financial literacy, we used five (5) questions from the National Financial Capability Study (NFCS) that assessed a respondent’s objective financial knowledge and covers the topics of interest rates, mortgages, inflation, diversification, and bond prices. Based on the number of correct answers each respondent was given a score, with a maximum of 5 and a minimum of 0. This served as our dependent variable.
 
-- Bulleted
-- List
+For cryptocurrency regulation, we created a dummy variable where a “1” would represent a respondent who lived in a state where cryptocurrency regulation was passed in or before the year of the NFCS survey. If the respondent lived in a state that did not pass any cryptocurrency regulation, then their dummy variable would be “0.” We named this dummy variable “Crypto_State_Year.” This, along with various demographic variables (gender, age, ethnicity, income, education, marital status, and number of children) served as the independent variables.
 
-1. Numbered
-2. List
+We then put all these variables in an ordinary least squares model to determine the extent to which financial literacy can be explained or predicted by the various demographic variables and our key variable of cryptocurrency regulation (Crypto_State_Year). 
 
-**Bold** and _Italic_ and `Code` text
+The results showed that there was a small, but significant effect of cryptocurrency regulation on levels of financial literacy. The coefficient was negative (-0.076***) and statistically significant at the 0.01% level, which implies that the legislative process and final passage of cryptocurrency regulation in states has a significant effect on levels of financial literacy on the margin.
 
-[Link](url) and ![Image](src)
-```
+## 1a. Definition of financial literacy
+The literature on financial literacy was struggling to settle on a definition or measure of the term “financial literacy” back in 2010, which was right after the 2008-2009 financial crisis (Remund, 2010). In fact, a review of the literature by Kimiyaghalam et al. (2015) on the concept of financial literacy showed that there were four (4) categories of conceptual definitions of financial literacy in the literature: “(1) knowledge of financial concepts, (2) ability in managing personal finances, (3) skill in making financial decisions and (4) confidence in future financial planning.” 
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+This paper will be focusing on the first of those four definitions, “knowledge of financial concepts”, by evaluating a series of five (5) questions in the National Financial Capability Study (NFCS) which is a project of the FINRA Investor Education Foundation (FINRA Foundation NFCS, 2022). The five questions cover the topics of compounding interest, impact of inflation, relationship of bond prices and interest rates, mortgages, and diversification. They were designed to assess a respondent’s objective financial knowledge. 
 
-### Jekyll Themes
+Objective financial knowledge is also different from the understanding of how numbers work, also known as “numeracy.” Numeracy questions (which are not in the survey this paper is using – the NFCS survey) assess a person’s understanding of percentages and basic arithmetic. Objective financial literacy goes beyond numeracy. An example of the difference between numeracy and objective financial knowledge can be found in a paper by Almenberg et al. (2015) that assessed numeracy, which they termed “basic financial literacy,” and objective financial knowledge, which they termed “advance financial literacy.” Next, let us look at the benefits of having a high level of financial literacy.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/kieran168/Financial_Literacy-AND-Crypto_Currencies/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## 1b. Higher levels of financial literacy have many benefits
+Financial literacy has many benefits for an individual who is navigating our financially complex world. The world is becoming more complex requiring a higher level of financial literacy. An example of the financial complexity that people face has been seen in the low rate of stock market participation by those with low levels of financial literacy. The reason cited is the “lack of understanding of economics and finance is a significant deterrent to stock ownership” (Rooij et al., 2011, p.468). Some people are also taking advantage of this “lack of understanding of economics and finance” of the financially illiterate by scamming them (Deevy et al., 2012). 
 
-### Support or Contact
+Those with higher levels of financial literacy are more likely to participate in the stock market (Rooij et al., 2011). Why is stock market participation important? Because the responsibility to save for one’s retirement is shifting away from the government (Social Security) and corporations (e.g., pensions) and onto individuals (e.g., 401Ks). And Cocco et al. (2005) have also found that the welfare loss associated with not investing in the stock market can be sizable. Under diversification has also been shown to have a welfare loss associated with it (Calvet et al., 2007). 
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Next, it has also been found that higher levels of financial literacy “explain a significant part of the gender gap in stock market participation” (Almenberg et al., 2015, p. 142, “Advanced Financial Literacy”). And as women have been found to participate significantly less than men in the stock market (Hasler et al., 2017), policies which aim to increase stock market participation among women can focus on raising their levels of financial literacy to accomplish this goal.
+Next, higher financial literacy is correlated with higher wealth (Rooij et al., 2011), it is correlated with a higher propensity to plan for retirement (Rooij et al., 2011), and it has been associated with lower rates of using pay day loans as well (Kim et al., 2018). And to add to the point about planning for retirement, those who plan are more likely to arrive at retirement with more wealth than those who do not plan, according to this study by Lusardi et al. (2007) who compared wealth levels between two groups of 51-to-56-year-olds across different years of 2004 and 1992 (both groups compared were of the same age range, just in different time periods). 
+
+Lastly, seeing all the positive outcomes for those with high levels of financial literacy, are there examples in the literature that show financial literacy can be improved? Yes, in fact a meta-analysis by Kaiser et al. (2017) who reviewed 126 financial education studies that included classroom trainings, individual counseling sessions, and online modules, concluded that there was “a positive assessment of the effectiveness of financial education on financial literacy” (Kaiser et al., 2017, p.15). 
+
+Now that we have shown the benefits of being financially literate and also that it is possible to improve financial literacy, let us turn to understanding the literature on cryptocurrency to search for reasons why people invest in cryptocurrency and what may motivate new investors to join in.
+
+# 2. Literature review and hypothesis

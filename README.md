@@ -5,7 +5,7 @@ Welcome to my master's thesis project repository! This project is a comprehensiv
 #### Key Skills Demonstrated:
 - **Data Analysis and Statistical Modeling**: Proficiency in using statistical software for data analysis, including creating and interpreting regression models.
 - **Economics Research**: Deep understanding of economic principles and their application to real-world issues.
-- **Programming and Data Handling**: Extensive use of Python/R (or specify the language used) for data manipulation, cleaning, and analysis.
+- **Programming and Data Handling**: Extensive use of R programming for data manipulation, cleaning, and analysis.
 - **Critical Thinking and Problem Solving**: Ability to hypothesize, test, and draw conclusions from complex data sets.
 - **Communication**: Clear presentation of findings through well-documented code and thorough explanations.
 

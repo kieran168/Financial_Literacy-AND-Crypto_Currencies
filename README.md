@@ -1,8 +1,8 @@
 ### Analysis of the Influence of Cryptocurrency Regulation on Levels of Financial Literacy
 
-[Read My Full Thesis](https://scholar.google.com/citations?user=PsvXNfYAAAAJ&hl=en)
+[Read My Full Analysis](https://scholar.google.com/citations?user=PsvXNfYAAAAJ&hl=en)
 
-Welcome to my master's thesis project repository! This project is a comprehensive analysis of how cryptocurrency regulations impact financial literacy across different states in the U.S. Using data from the National Financial Capability Study (NFCS) and various statistical methods, including OLS regression, this research provides valuable insights into the intersection of financial policy and public financial education.
+This project is a comprehensive analysis of how cryptocurrency regulations impact financial literacy across different states in the U.S. Using data from the National Financial Capability Study (NFCS) and various statistical methods, including OLS regression, this research provides valuable insights into the intersection of financial policy and public financial education.
 
 #### Project Highlights:
 - **Objective**: Investigate the effect of state-level cryptocurrency regulation on financial literacy rates.

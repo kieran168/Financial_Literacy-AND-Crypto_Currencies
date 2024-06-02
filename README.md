@@ -2,17 +2,17 @@
 
 Welcome to my master's thesis project repository! This project is a comprehensive analysis of how cryptocurrency regulations impact financial literacy across different states in the U.S. Using data from the National Financial Capability Study (NFCS) and various statistical methods, including OLS regression, this research provides valuable insights into the intersection of financial policy and public financial education.
 
+#### Project Highlights:
+- **Objective**: Investigate the effect of state-level cryptocurrency regulation on financial literacy rates.
+- **Methodology**: Used a mix of demographic and policy variables to assess their impact on financial literacy scores derived from NFCS data.
+- **Findings**: Discovered a small but significant negative effect of cryptocurrency regulation on financial literacy, suggesting regulatory actions influence public financial knowledge.
+
 #### Key Skills Demonstrated:
 - **Data Analysis and Statistical Modeling**: Proficiency in using statistical software for data analysis, including creating and interpreting regression models.
 - **Economics Research**: Deep understanding of economic principles and their application to real-world issues.
 - **Programming and Data Handling**: Extensive use of R programming for data manipulation, cleaning, and analysis.
 - **Critical Thinking and Problem Solving**: Ability to hypothesize, test, and draw conclusions from complex data sets.
 - **Communication**: Clear presentation of findings through well-documented code and thorough explanations.
-
-#### Project Highlights:
-- **Objective**: Investigate the effect of state-level cryptocurrency regulation on financial literacy rates.
-- **Methodology**: Used a mix of demographic and policy variables to assess their impact on financial literacy scores derived from NFCS data.
-- **Findings**: Discovered a small but significant negative effect of cryptocurrency regulation on financial literacy, suggesting regulatory actions influence public financial knowledge.
 
 Feel free to explore the code, review the analyses, and contact me with any questions or feedback. I'm always open to discussions and collaborations on similar topics.
 

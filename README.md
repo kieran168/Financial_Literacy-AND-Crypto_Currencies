@@ -17,7 +17,6 @@ Welcome to my master's thesis project repository! This project is a comprehensiv
 Feel free to explore the code, review the analyses, and contact me with any questions or feedback. I'm always open to discussions and collaborations on similar topics.
 
 ================
-Kieran Yuen
 
   - [Loading in NFCS data](#loading-in-nfcs-data)
   - [Cleaning Data](#cleaning-data)
